@@ -13,3 +13,7 @@ Record My Learning Process
 #### algorithm
         study algorithm
         language:c
+        book:
+            1. [算法概论](http://book.douban.com/subject/3425827/)
+            2. [算法导论](http://book.douban.com/subject/1885170/)
+            3. [算法](http://book.douban.com/subject/10432347/)
