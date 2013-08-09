@@ -10,6 +10,6 @@ Record My Learning Process
         codejam
         language:python
 
-#### [algorithm]
+#### algorithm
         study algorithm
         language:c
