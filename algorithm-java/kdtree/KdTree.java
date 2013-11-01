@@ -103,7 +103,15 @@ public class KdTree {
 
     public void draw() {
         // draw all of the points to standard draw
-        // TODO 
+        iter_draw(root);
+    }
+    private void iter_draw(TreeNode n) {
+        if (n == null) {
+            return;
+        }
+        iter_draw(n.left);
+        n.point.draw();
+        iter_draw(n.right);
     }
 
     public Iterable<Point2D> range(RectHV rect) {
@@ -164,6 +172,8 @@ public class KdTree {
     private double dis_near;
     private void search_nearest(TreeNode n, Point2D p) {
         double dis = p.distanceTo(n.point);
+        StdOut.println("check:");
+        StdOut.println(n.point);
         if (dis < dis_near) {
             dis_near = dis;
             near = n.point;
