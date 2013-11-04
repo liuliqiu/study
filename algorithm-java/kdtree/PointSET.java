@@ -49,11 +49,11 @@ public class PointSET {
     public Point2D nearest(Point2D p) {
         // a nearest neighbor in the set to p; null if set is empty
         Point2D near = null;
-        double near_dis = 0, dis;
+        double nearDis = 0, dis;
         for (Point2D q : treeSet) {
             dis = q.distanceTo(p);
-            if (near == null || dis < near_dis) {
-                near_dis = dis;
+            if (near == null || dis < nearDis) {
+                nearDis = dis;
                 near = q;
             }
         }

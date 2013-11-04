@@ -1,22 +1,23 @@
-import java.util.TreeSet;
 import java.util.ArrayList;
-import java.util.Stack;
 
 public class KdTree {
-    private class TreeNode{
+    private TreeNode root;
+    private int nodeNumber;
+    private Point2D near;
+    private double nearDis;
+
+    private class TreeNode {
+        private Point2D point;
+        private TreeNode left;
+        private TreeNode right;
+        private int deepth;
         public TreeNode(Point2D point, int deepth, TreeNode left, TreeNode right) {
             this.point = point;
             this.deepth = deepth;
             this.left = left;
             this.right = right;
         }
-        private Point2D point;
-        private TreeNode left;
-        private TreeNode right;
-        private int deepth;
     }
-    private TreeNode root;
-    private int nodeNumber;
     public KdTree() {
         // construct an empty set of points
         root = null;
@@ -39,8 +40,9 @@ public class KdTree {
             root = new TreeNode(p, 0, null, null);
         } else {
             TreeNode n = root;
-            int c = compair(n.point, p, n.deepth);
+            int c;
             while (n != null) {
+                c = compair(p, n.point, n.deepth);
                 if (c == -1) {
                     if (n.left == null) {
                         n.left = new TreeNode(p, n.deepth + 1, null, null);
@@ -103,53 +105,53 @@ public class KdTree {
 
     public void draw() {
         // draw all of the points to standard draw
-        iter_draw(root);
+        iterDraw(root);
     }
-    private void iter_draw(TreeNode n) {
+    private void iterDraw(TreeNode n) {
         if (n == null) {
             return;
         }
-        iter_draw(n.left);
+        iterDraw(n.left);
         n.point.draw();
-        iter_draw(n.right);
+        iterDraw(n.right);
     }
 
     public Iterable<Point2D> range(RectHV rect) {
         // all points in the set that are inside the rectangle
         ArrayList<Point2D> list = new ArrayList<Point2D>();
-        ArrayList<TreeNode> node_to_checkout = new ArrayList<TreeNode>();
-        node_to_checkout.add(root);
+        ArrayList<TreeNode> nodeToCheckout = new ArrayList<TreeNode>();
+        nodeToCheckout.add(root);
         int i = 0;
         double x, y;
-        while (i < node_to_checkout.size()) {
-            TreeNode n = node_to_checkout.get(i);
+        while (i < nodeToCheckout.size()) {
+            TreeNode n = nodeToCheckout.get(i);
             i++;
             if (n == null) continue;
             x = n.point.x();
             y = n.point.y();
             if (n.deepth % 2 == 0) {
                 if (x > rect.xmax()) {
-                    node_to_checkout.add(n.left);
+                    nodeToCheckout.add(n.left);
                 } else if (x < rect.xmin()) {
-                    node_to_checkout.add(n.right);
+                    nodeToCheckout.add(n.right);
                 } else {
                     if (y >= rect.ymin() && y <= rect.ymax()) {
                         list.add(n.point);
                     }
-                    node_to_checkout.add(n.right);
-                    node_to_checkout.add(n.left);
+                    nodeToCheckout.add(n.right);
+                    nodeToCheckout.add(n.left);
                 }
             } else {
                 if (y > rect.ymax()) {
-                    node_to_checkout.add(n.left);
+                    nodeToCheckout.add(n.left);
                 } else if (y < rect.ymin()) {
-                    node_to_checkout.add(n.right);
+                    nodeToCheckout.add(n.right);
                 } else {
                     if (x >= rect.xmin() && x <= rect.xmax()) {
                         list.add(n.point);
                     }
-                    node_to_checkout.add(n.right);
-                    node_to_checkout.add(n.left);
+                    nodeToCheckout.add(n.right);
+                    nodeToCheckout.add(n.left);
                 }
             }
         }
@@ -162,61 +164,63 @@ public class KdTree {
             return null;
         }
         near = root.point;
-        dis_near = p.distanceTo(near);
-        StdOut.println(p);
-        search_nearest(root, p);
+        nearDis = p.distanceTo(near);
+        searchNearest(root, p);
         return near;
     }
 
-    private Point2D near;
-    private double dis_near;
-    private void search_nearest(TreeNode n, Point2D p) {
+    private void searchNearest(TreeNode n, Point2D p) {
         double dis = p.distanceTo(n.point);
-        StdOut.println("check:");
-        StdOut.println(n.point);
-        if (dis < dis_near) {
-            dis_near = dis;
+        if (dis < nearDis) {
+            nearDis = dis;
             near = n.point;
         }
         double dx = p.x() - n.point.x();
         double dy = p.y() - n.point.y();
-        if (need_check_left(n, dx, dy)){
-            search_nearest(n.left, p);
-            StdOut.println("need_check_left:");
-            StdOut.println(n.point);
-            StdOut.println(n.deepth);
-            StdOut.println(need_check_left(n, dx, dy));
-            StdOut.println(near);
+        if (needCheckLeft(n, dx, dy)) {
+            searchNearest(n.left, p);
         }
-        if (need_check_right(n, dx, dy)) {
-            search_nearest(n.right, p);
-            StdOut.println("need_check_right:");
-            StdOut.println(n.point);
-            StdOut.println(n.deepth);
-            StdOut.println(need_check_right(n, dx, dy));
-            StdOut.println(near);
+        if (needCheckRight(n, dx, dy)) {
+            searchNearest(n.right, p);
         }
     }
 
-    private boolean need_check_left(TreeNode n, double dx, double dy) {
+    private boolean needCheckLeft(TreeNode n, double dx, double dy) {
         if (n.left == null) {
             return false;
         }
         if (n.deepth % 2 == 0) {
-            return dx <= dis_near;
+            return dx <= nearDis;
         } else {
-            return dy <= dis_near;
+            return dy <= nearDis;
         }
     }
-    private boolean need_check_right(TreeNode n, double dx, double dy) {
+    private boolean needCheckRight(TreeNode n, double dx, double dy) {
         if (n.right == null) {
             return false;
         }
         if (n.deepth % 2 == 0) {
-            return -dx <= dis_near;
+            return -dx <= nearDis;
         } else {
-            return -dy <= dis_near;
+            return -dy <= nearDis;
         }
+    }
+    public static void main(String[] args) {
+        String filename = args[0];
+        In in = new In(filename);
+
+        StdDraw.show(0);
+
+        // initialize the two data structures with point from standard input
+        KdTree kdtree = new KdTree();
+        while (!in.isEmpty()) {
+            double x = in.readDouble();
+            double y = in.readDouble();
+            Point2D p = new Point2D(x, y);
+            kdtree.insert(p);
+        }
+
+        kdtree.draw();
     }
 
 }
