@@ -58,14 +58,15 @@ public class KdTree {
                         n = n.right;
                     }
                 } else {
-                    throw new IllegalArgumentException("The node is already in the set");
+                    return;
+                    //throw new IllegalArgumentException("The node is already in the set");
                 }
             }
         }
         nodeNumber++;
     }
 
-    public int compair(Point2D p, Point2D q, int d) {
+    private int compair(Point2D p, Point2D q, int d) {
         if (d % 2 == 0) {
             if (p.x() < q.x() || (p.x() == q.x() && p.y() < q.y())) {
                 return -1;
@@ -91,7 +92,7 @@ public class KdTree {
         TreeNode n = root;
         int c;
         while (n != null) {
-            c = compair(n.point, p, n.deepth);
+            c = compair(p, n.point, n.deepth);
             if (c == -1) {
                 n = n.left;
             } else if (c == 1) {
@@ -177,11 +178,20 @@ public class KdTree {
         }
         double dx = p.x() - n.point.x();
         double dy = p.y() - n.point.y();
-        if (needCheckLeft(n, dx, dy)) {
-            searchNearest(n.left, p);
-        }
-        if (needCheckRight(n, dx, dy)) {
-            searchNearest(n.right, p);
+        if ((n.deepth % 2 == 0 && dx < 0) || (n.deepth % 2 == 1 && dy < 0)) {
+            if (needCheckLeft(n, dx, dy)) {
+                searchNearest(n.left, p);
+            }
+            if (needCheckRight(n, dx, dy)) {
+                searchNearest(n.right, p);
+            }
+        } else {
+            if (needCheckRight(n, dx, dy)) {
+                searchNearest(n.right, p);
+            }
+            if (needCheckLeft(n, dx, dy)) {
+                searchNearest(n.left, p);
+            }
         }
     }
 
@@ -205,22 +215,4 @@ public class KdTree {
             return -dy <= nearDis;
         }
     }
-    public static void main(String[] args) {
-        String filename = args[0];
-        In in = new In(filename);
-
-        StdDraw.show(0);
-
-        // initialize the two data structures with point from standard input
-        KdTree kdtree = new KdTree();
-        while (!in.isEmpty()) {
-            double x = in.readDouble();
-            double y = in.readDouble();
-            Point2D p = new Point2D(x, y);
-            kdtree.insert(p);
-        }
-
-        kdtree.draw();
-    }
-
 }
