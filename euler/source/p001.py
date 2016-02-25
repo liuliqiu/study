@@ -6,8 +6,8 @@ def f1(n):
     return sum(i for i in range(n) if i%3==0 or i%5==0)
 
 def f(n):
-    Sum=lambda x:(x*x+x)//2
-    SumDivisibleBy=lambda k:Sum((n-1)//k)*k
+    Sum = lambda x:(x*x+x)//2
+    SumDivisibleBy = lambda k:Sum((n-1)//k)*k
     return SumDivisibleBy(3)+SumDivisibleBy(5)-SumDivisibleBy(15)
 
 test_case = [(10, 23)]

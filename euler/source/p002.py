@@ -5,14 +5,14 @@
 ##four million.
 
 def f1(limit):
-    Fib=[1,2]
-    while Fib[-2]+Fib[-1]<limit:
-        Fib.append(Fib[-2]+Fib[-1])
-    return sum(filter(lambda x:x%2==0,Fib))
+    Fib = [1, 2]
+    while Fib[-2] + Fib[-1] < limit:
+        Fib.append(Fib[-2] + Fib[-1])
+    return sum(filter(lambda x:x%2==0, Fib))
 
 def f(limit):
-    B=[2,8]
-    while B[-2]+4*B[-1]<limit:
+    B = [2, 8]
+    while B[-2]+4*B[-1] < limit:
         B.append(B[-2]+4*B[-1])
     return sum(B)
 
