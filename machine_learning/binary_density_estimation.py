@@ -25,6 +25,13 @@ def test(est_func, times = 1000):
         R.append(abs(p - P))
     return sum(R)/len(R)
 
+def average(it):
+    i, s = 0, 0
+    for d in it:
+        i += 1
+        s += d
+    return float(s) / float(i)
+
 
 def main():
     #print test(estimation)
