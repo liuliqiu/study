@@ -197,21 +197,57 @@ f_localsplus重的locals 时为了提高虚拟机的访问速度的。
 通过宏PREDICTED 和 PREDICTED_WITH_ARG 定义加入用于快速的定位
 
 
-### 常用指令列表ßßßßßßßßßßßßßß
+### 常用指令列表
 
-| 指令               | 作用                                      |
-| ---------------- | --------------------------------------- |
-| LOAD_CONST       | 将常量压入栈                                  |
-| STORE_NAME       | 将栈顶部的值放入locals字典，key为name。              |
-| BUILD_MAP        | 新建一个dict对象并压入栈                          |
-| BUILD_LIST       | 新建一个list对象并压入栈                          |
-| RETURN_VALUE     | 返回栈顶的值                                  |
-| STORE_MAP        | 以栈顶值为key，第二个值为value，放入第三个值的字典           |
-| LOAD_NAME        | 先后从locals、globals、builtins中查找name，然后压入栈 |
-| COMPARE_OP       | 使用参数代表的比较运算比较两个栈顶值，结果压入栈。               |
-| POP_JUMP_IF_TRUE | 根据弹出的栈顶元素的布尔值决定是否跳转                     |
-|                  |                                         |
-|                  |                                         |
+| 指令               | 作用                                       |
+| ---------------- | ---------------------------------------- |
+| LOAD_CONST       | 将常量压入栈                                   |
+| STORE_NAME       | 将栈顶部的值放入locals字典，key为name。               |
+| BUILD_MAP        | 新建一个dict对象并压入栈                           |
+| BUILD_LIST       | 新建一个list对象并压入栈                           |
+| RETURN_VALUE     | 返回栈顶的值                                   |
+| STORE_MAP        | 以栈顶值为key，第二个值为value，放入第三个值的字典            |
+| LOAD_NAME        | 先后从locals、globals、builtins中查找name，然后压入栈  |
+| COMPARE_OP       | 使用参数代表的比较运算比较两个栈顶值，结果压入栈。                |
+| POP_JUMP_IF_TRUE | 根据弹出的栈顶元素的布尔值决定是否跳转                      |
+| JUMP_ABSOLUTE    | 直接跳转到参数指定的指令位置                           |
+| SETUP_LOOP       | 设置循环开始，以SETUP_LOOP，当前stack顶位置, 循环结束位置为参数新建PyTryBlock，然后压入frame.f_blockstack |
+| GET_ITER         | 对栈顶值用PyObject_GetIter，获取迭代器取代当前栈顶的值      |
+| FOR_ITER         | 获取栈顶迭代器的迭代值然后压入栈顶，失败时弹出栈顶迭代器，然后跳到参数指定的指令处 |
+| POP_BLOCK        | 从frame.f_blockstack弹出顶部的PyTryBlock，然后从栈顶弹出值，直到栈的栈顶位置恢复到PyTryBlock设置的栈顶位置 |
+| BREAK_BLOCK      | 设置 why 为 WHY_BREAK 跳到fast_block_end处，弹出f_blockstack顶部的SETUP_LOOP的PyTryBlock，然后根据其保存的栈顶位置恢复栈状态 |
+| RAISE_VARARGS    | 根据参数获取栈顶的值设置异常信息，返回WHY_EXCEPTION         |
+| SETUP_EXCEPT     |                                          |
+| SETUP_FINALLY    |                                          |
+| END_FINALLY      |                                          |
+|                  |                                          |
+|                  |                                          |
+|                  |                                          |
+
+
+### 循环
+```
+SETUP_LOOP
+// init 代码，将需要迭代的对象压入栈顶
+GET_ITER
+FOR_ITER (postion of POP_BLOCK)
+// loop 代码
+JUMP_ABSOLUTE (position of FOR_ITER)
+POP_BLOCK
+```
+
+### 异常处理
+python会在进入异常处理结构时使用 SETUP_EXCEPT 和 SETUP_FINALLY 新建一个PyTryBlock压入frame.f_blockstack。
+
+发生异常时，指令会调用PyErr_SetString 等设置tstate中的异常信息，并且在switch中设置 x 为NULL ,why为WHY_EXCEPTION，在PyTraceBack_Here中使用PyTracebackObject纪录当前frame信息放到tstate.curexc_traceback中。
+
+虚拟机会从当前PyFramObject对象的f_blockstack中弹出一个PyTryBlock，然后通过PyErr_Fetch获取当前线程对象中存储的最新异常对象和traceback对象,然后就 traceback对象， 值，类型压入栈中。将why设置为WHY_NOT，然后跳转到异常处理代码。
+
+except ，会使用 COMARE_OP 带参数10 ，比较异常的类型，成功时执行异常处理代码然后跳过END_FINNALY指令，失败时直接跳到 END_FINNALY指令。
+END_FINNALY指令会重新抛出异常
+finnaly时会执行处理代码然后执行END_FINNALY指令
+
+如果异常在当前frame没有处理，会返回调用它的上一级frame，按同样的方式寻找except和finally处理,直到最外层还没有被处理的话，python 会用默认的PyErr_Print打印错误信息。
 
 
 
