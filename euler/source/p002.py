@@ -16,5 +16,5 @@ def f(limit):
         B.append(B[-2]+4*B[-1])
     return sum(B)
 
-test_case = []
+test_case = [(10, 10)]
 x = 4000000

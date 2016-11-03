@@ -39,15 +39,25 @@ def f3():
     return result
 from math import ceil
 from itertools import ifilter
+from functools import partial
 
 def f(n):
     def makePalindromic(n):
-        return int(str(n)+''.join(reversed(str(n))))
-    def isProductOfTwo(n):
-        for i in range(int(ceil(n**0.5)), 10 ** n):
+        i = 1
+        result = 0
+        while n > 0:
+            n, d = divmod(n, 10)
+            result = result * 10 +  (10 ** i + 1) * d
+            i += 2
+        return result
+    def isProductOfK(n, k):
+        i = int(ceil(n ** 0.5))
+        while i < 10 ** k:
             if n % i == 0:
                 return True
+            i += 1
         return False
-    return next(ifilter(isProductOfTwo, map(makePalindromic, range(10 ** n - 1, 10 **(n - 1) - 1, -1))))
-test_case = []
+    return next(ifilter(partial(isProductOfK, k=n), map(makePalindromic, range(10 ** n - 1, 10 ** (n - 1) - 1, -1))))
+test_case = [(2, 9009)]
 x = 3
+

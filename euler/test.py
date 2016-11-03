@@ -14,12 +14,16 @@ if __name__ == "__main__":
     parser.add_argument('--test', action='store_true', help='only test')
     args = parser.parse_args()
     m = importlib.import_module('source.p{0:03}'.format(args.n))
-    if args.test:
-        if hasattr(m, 'test_case'):
-            for inp, outp in m.test_case:
-                run('assert m.f(inp) == outp')
+    if hasattr(m, 'f'):
+        if args.test:
+            if hasattr(m, 'test_case'):
+                for inp, outp in m.test_case:
+                    run('assert m.f(inp) == outp')
+        else:
+            if hasattr(m, 'x'):
+                test = lambda :m.f(m.x)
+                run('print(test())')
     else:
-        test = lambda :m.f(m.x)
-        run('print(test())')
+        raise Exception("not euler source file")
 
 

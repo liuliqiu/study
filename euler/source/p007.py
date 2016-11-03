@@ -1,6 +1,8 @@
+#-*- coding:utf-8 -*-
 ##By listing the first six prime numbers: 2, 3, 5, 7, 11, and 13, we can see
 ##that the 6th prime is 13.
 ##What is the 10001st prime number?
+
 def f(n):
     result=[2]
     i=3
@@ -14,6 +16,7 @@ def f(n):
                 break
         i=i+2
     return result[-1]
+
 def sieve(n):
     '''使用[0,1,2,...,((n-1)//2)-1]来表示[3,5,7,...,((n-1)//2)*2+1]'''
     if n<2:
@@ -96,28 +99,11 @@ def f4(n):
                 R+=len(ps[-1])
             return ps[-1][n-R-2]
 
-val=300001
-from timeit import Timer
-##def test():
-##    re=f(val)
-####    print(re)
-##t=Timer("test()","from __main__ import test")
-##print("f:",t.timeit(1))
+from libs.prime import primes
+from libs.eulertools import skip
 
-def test2():
-    re=f2(val)
-##    print(re)
-t2=Timer("test2()","from __main__ import test2")
-print("f2:",t2.timeit(1))
+def f5(n):
+    return next(skip(primes(int(n*log(n)*1.2)), n - 1))
 
-def test3():
-    re=f3(val)
-##    print(re)
-t3=Timer("test3()","from __main__ import test3")
-print("f3:",t3.timeit(1))
-
-##def test4():
-##    re=f4(val)
-####    print(re)
-##t4=Timer("test4()","from __main__ import test4")
-##print("f4:",t4.timeit(1))
+test_case = [(300001, 4256249)]
+x = 10001
