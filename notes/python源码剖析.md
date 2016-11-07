@@ -199,30 +199,34 @@ f_localsplus重的locals 时为了提高虚拟机的访问速度的。
 
 ### 常用指令列表
 
-| 指令               | 作用                                       |
-| ---------------- | ---------------------------------------- |
-| LOAD_CONST       | 将常量压入栈                                   |
-| STORE_NAME       | 将栈顶部的值放入locals字典，key为name。               |
-| BUILD_MAP        | 新建一个dict对象并压入栈                           |
-| BUILD_LIST       | 新建一个list对象并压入栈                           |
-| RETURN_VALUE     | 返回栈顶的值                                   |
-| STORE_MAP        | 以栈顶值为key，第二个值为value，放入第三个值的字典            |
-| LOAD_NAME        | 先后从locals、globals、builtins中查找name，然后压入栈  |
-| COMPARE_OP       | 使用参数代表的比较运算比较两个栈顶值，结果压入栈。                |
-| POP_JUMP_IF_TRUE | 根据弹出的栈顶元素的布尔值决定是否跳转                      |
-| JUMP_ABSOLUTE    | 直接跳转到参数指定的指令位置                           |
-| SETUP_LOOP       | 设置循环开始，以SETUP_LOOP，当前stack顶位置, 循环结束位置为参数新建PyTryBlock，然后压入frame.f_blockstack |
-| GET_ITER         | 对栈顶值用PyObject_GetIter，获取迭代器取代当前栈顶的值      |
-| FOR_ITER         | 获取栈顶迭代器的迭代值然后压入栈顶，失败时弹出栈顶迭代器，然后跳到参数指定的指令处 |
-| POP_BLOCK        | 从frame.f_blockstack弹出顶部的PyTryBlock，然后从栈顶弹出值，直到栈的栈顶位置恢复到PyTryBlock设置的栈顶位置 |
-| BREAK_BLOCK      | 设置 why 为 WHY_BREAK 跳到fast_block_end处，弹出f_blockstack顶部的SETUP_LOOP的PyTryBlock，然后根据其保存的栈顶位置恢复栈状态 |
-| RAISE_VARARGS    | 根据参数获取栈顶的值设置异常信息，返回WHY_EXCEPTION         |
-| SETUP_EXCEPT     |                                          |
-| SETUP_FINALLY    |                                          |
-| END_FINALLY      |                                          |
-|                  |                                          |
-|                  |                                          |
-|                  |                                          |
+| 指令                           _                     _ | 作用                                       |
+| ---------------------------------------- | ---------------------------------------- |
+| LOAD_CONST                               | 将常量压入栈                                   |
+| STORE_NAME                               | 将栈顶部的值放入locals字典，key为name。               |
+| BUILD_MAP                                | 新建一个dict对象并压入栈                           |
+| BUILD_LIST                               | 新建一个list对象并压入栈                           |
+| RETURN_VALUE                             | 返回栈顶的值                                   |
+| STORE_MAP                                | 以栈顶值为key，第二个值为value，放入第三个值的字典            |
+| LOAD_NAME                                | 先后从locals、globals、builtins中查找name，然后压入栈  |
+| COMPARE_OP                               | 使用参数代表的比较运算比较两个栈顶值，结果压入栈。                |
+| POP_JUMP_IF_TRUE                         | 根据弹出的栈顶元素的布尔值决定是否跳转                      |
+| JUMP_ABSOLUTE                            | 直接跳转到参数指定的指令位置                           |
+| SETUP_LOOP                               | 设置循环开始，以SETUP_LOOP，当前stack顶位置, 循环结束位置为参数新建PyTryBlock，然后压入frame.f_blockstack |
+| GET_ITER                                 | 对栈顶值用PyObject_GetIter，获取迭代器取代当前栈顶的值      |
+| FOR_ITER                                 | 获取栈顶迭代器的迭代值然后压入栈顶，失败时弹出栈顶迭代器，然后跳到参数指定的指令处 |
+| POP_BLOCK                                | 从frame.f_blockstack弹出顶部的PyTryBlock，然后从栈顶弹出值，直到栈的栈顶位置恢复到PyTryBlock设置的栈顶位置 |
+| BREAK_BLOCK                              | 设置 why 为 WHY_BREAK 跳到fast_block_end处，弹出f_blockstack顶部的SETUP_LOOP的PyTryBlock，然后根据其保存的栈顶位置恢复栈状态 |
+| RAISE_VARARGS                            | 根据参数获取栈顶的值设置异常信息，返回WHY_EXCEPTION         |
+| SETUP_EXCEPT                             |                                          |
+| SETUP_FINALLY                            |                                          |
+| END_FINALLY                              |                                          |
+| LOAD_FAST                                |                                          |
+| STORT_FAST                               |                                          |
+| STORE_DEREF                              | 将栈顶的值放入 co_freevals 中对应的PyCell对象中        |
+| LOAD_DEREF                               |                                          |
+| LOAD_CLOSURE                             | 取参数对应位置的PyCell对象，压入栈                     |
+| MAKE_CLOSURE                             | 弹出栈顶的PyCodeObject创建一个函数，然后弹出栈顶的tuple，设置为closure |
+|                                          |                                          |
 
 
 ### 循环
@@ -249,12 +253,42 @@ finnaly时会执行处理代码然后执行END_FINNALY指令
 
 如果异常在当前frame没有处理，会返回调用它的上一级frame，按同样的方式寻找except和finally处理,直到最外层还没有被处理的话，python 会用默认的PyErr_Print打印错误信息。
 
+### 参数传递
 
+函数默认值：MAKE_FUNCTION的时候，在函数压入栈前会将默认参数压入栈，然后会用默认参数构造一个tuple赋值给func的func_defaults字段。因为函数的变量名都是固定的，所以tuple会对应最后的几个参数名。
+然后会在函数执行时先使用传递的参数填充localplus，之后会用默认参数填充没有传递的参数。
+如果函数还有拓展位置参数和拓展健函数会放在localplus中其他参数的后面。
 
+Python虚拟机执行 py文件时，f_locals 和 f_globals指向的是同一个PyDictObject。
+但是调用函数中使用PyFrame_New 创建一个新的PyFrameObject对象时，f_locals会指向NULL。
+这时局域变量会利用LOAD_FAST和STORE_FAST来操作。因为函数中的局部变量总是固定不变的，所以在编译时就能确定局部变量使用内存的位置，也能确定访问局部变量的字节码指令应该如何访问内存。
 
+### 闭包
 
+co_cellvars 通常是一个tuple，保存嵌套的作用域中使用的变量名集合；
+co_freevars 通常是一个tuple，保存使用了的外层作用域中的变量名集合；
+localplus中除了保存局部变量和栈，还有cellvars和freevars。
 
+![localplus内存分布](https://img3.doubanio.com/view/ark_works_pic/common-largeshow/public/178704.jpg)
 
+PyCellObject 仅仅是PyObject对象的一层通用引用包装
+```c
+typedef struct {
+  PyObject_HEAD
+  PyObject* ob_ref;
+} PyCellObject;
+```
+
+外部函数会用STORE_DEREF指令设置cellvars对象，生成函数对象时会从cellvars中取出cell生成一个tuple作为函数的closure。开始执行函数时会从closure中取出cell放入freevars中。然后就可以在内部函数中使用LOAD_DEREF使用外部函数中的变量了。
+
+### 对象模型
+
+Python 2.2之前，Python中的内置type，是不能被继承的。因为没有在type中寻找某个属性的机制。这就是old style class。
+Python 2.2 中统一了类型机制，称之为new style class机制。
+
+metaclass对象：type
+
+Python 2.2 开始，Python在启动时，会调用_Py_ReadyTypes对类型系统进行初始化、进行填充tp_dict等操作。
 
 
 
