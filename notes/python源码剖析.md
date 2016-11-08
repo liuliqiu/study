@@ -288,8 +288,62 @@ Python 2.2 中统一了类型机制，称之为new style class机制。
 
 metaclass对象：type
 
-Python 2.2 开始，Python在启动时，会调用_Py_ReadyTypes对类型系统进行初始化、进行填充tp_dict等操作。
+Python 2.2 开始，Python在启动时，会调用_Py_ReadyTypes然后调用PyType_Ready对类型系统进行初始化、进行填充tp_dict等操作。
+获得基类tp_base，没有的话设置为object。
+然后看基类是否已经出事话，没有的话先初始化基类。
+然后如果没有ob_type则设置为基类的ob_type。
+然后处理类型的基类列表tp_bases。
+最后开始填充tp_dict。
 
+slot，在Python内部slot可以视为PyTypeObject中定义的操作，slot还包含一些其他信息。
+```c
+typedef struct wrapperbase slotdef;
+
+struct wrapperbase{
+  char *name;  // 操作对应的名称
+  int offset;  // 函数地址在 PyHeapTypeObject中的偏移量
+  void *function;  // 
+  wrapperfunc wrapper;
+  char *doc;
+  int flags;
+  PyObject *name_strobj;
+}
+```
+```c
+typedef struct _heaptypeobject{
+  PyTypeObject ht_type;
+  PyNumberMethods as_number;
+  PyMappingMethods as_mapping;
+  PySequenceMethods as_sequence;
+  PyBufferProcs as_buffer;
+  PyObject *ht_name, *ht_slots;
+} PyHeapTypeObejct;
+```
+PyHeapTypeObject的第一个域就是PyTypeObject，所以在PyTypeObject的偏移量就是在PyHeapTypeObject的偏移量。
+
+slotdefs 中有可能同一个操作名有可能对应不同操作。所以在init_slotdefs中会用offset信息对slot进行排序。
+
+slot和PyWrapperDescObject
+```c
+#define PyDescr_COMMON \
+    PyObject_HEAD \
+    PyTypeObject *d_type; \
+    PyObject *d_name
+
+typedef struct {
+  PyDescr_COMMON;
+  struct wrapperbase *d_base;
+  void *d_wrapped;
+} PyWrapperDescrObject;
+```
+
+PyWrapperDescrObject中的d_wrapped就是操作对应的指针，slot 放在d_base中。
+tp_dict中保存 操作名道descriptord的关联。
+
+slotptr 使用type和offset获得操作的真实函数指针。
+
+初始化时，如果自定义的类有重写默认属性，Python会在fixup_slot_dispatchers中找到type中的tp_
+方法，替换为slot中的 slot_tp_方法，slot方法中查找对应的属性，然后执行。
 
 
 
