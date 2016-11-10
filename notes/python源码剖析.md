@@ -199,34 +199,36 @@ f_localsplus重的locals 时为了提高虚拟机的访问速度的。
 
 ### 常用指令列表
 
-| 指令                           _                     _ | 作用                                       |
-| ---------------------------------------- | ---------------------------------------- |
-| LOAD_CONST                               | 将常量压入栈                                   |
-| STORE_NAME                               | 将栈顶部的值放入locals字典，key为name。               |
-| BUILD_MAP                                | 新建一个dict对象并压入栈                           |
-| BUILD_LIST                               | 新建一个list对象并压入栈                           |
-| RETURN_VALUE                             | 返回栈顶的值                                   |
-| STORE_MAP                                | 以栈顶值为key，第二个值为value，放入第三个值的字典            |
-| LOAD_NAME                                | 先后从locals、globals、builtins中查找name，然后压入栈  |
-| COMPARE_OP                               | 使用参数代表的比较运算比较两个栈顶值，结果压入栈。                |
-| POP_JUMP_IF_TRUE                         | 根据弹出的栈顶元素的布尔值决定是否跳转                      |
-| JUMP_ABSOLUTE                            | 直接跳转到参数指定的指令位置                           |
-| SETUP_LOOP                               | 设置循环开始，以SETUP_LOOP，当前stack顶位置, 循环结束位置为参数新建PyTryBlock，然后压入frame.f_blockstack |
-| GET_ITER                                 | 对栈顶值用PyObject_GetIter，获取迭代器取代当前栈顶的值      |
-| FOR_ITER                                 | 获取栈顶迭代器的迭代值然后压入栈顶，失败时弹出栈顶迭代器，然后跳到参数指定的指令处 |
-| POP_BLOCK                                | 从frame.f_blockstack弹出顶部的PyTryBlock，然后从栈顶弹出值，直到栈的栈顶位置恢复到PyTryBlock设置的栈顶位置 |
-| BREAK_BLOCK                              | 设置 why 为 WHY_BREAK 跳到fast_block_end处，弹出f_blockstack顶部的SETUP_LOOP的PyTryBlock，然后根据其保存的栈顶位置恢复栈状态 |
-| RAISE_VARARGS                            | 根据参数获取栈顶的值设置异常信息，返回WHY_EXCEPTION         |
-| SETUP_EXCEPT                             |                                          |
-| SETUP_FINALLY                            |                                          |
-| END_FINALLY                              |                                          |
-| LOAD_FAST                                |                                          |
-| STORT_FAST                               |                                          |
-| STORE_DEREF                              | 将栈顶的值放入 co_freevals 中对应的PyCell对象中        |
-| LOAD_DEREF                               |                                          |
-| LOAD_CLOSURE                             | 取参数对应位置的PyCell对象，压入栈                     |
-| MAKE_CLOSURE                             | 弹出栈顶的PyCodeObject创建一个函数，然后弹出栈顶的tuple，设置为closure |
-|                                          |                                          |
+| 指令               | 作用                                       |
+| ---------------- | ---------------------------------------- |
+| LOAD_CONST       | 将常量压入栈                                   |
+| STORE_NAME       | 将栈顶部的值放入locals字典，key为name。               |
+| BUILD_MAP        | 新建一个dict对象并压入栈                           |
+| BUILD_LIST       | 新建一个list对象并压入栈                           |
+| RETURN_VALUE     | 返回栈顶的值                                   |
+| STORE_MAP        | 以栈顶值为key，第二个值为value，放入第三个值的字典            |
+| LOAD_NAME        | 先后从locals、globals、builtins中查找name，然后压入栈  |
+| COMPARE_OP       | 使用参数代表的比较运算比较两个栈顶值，结果压入栈。                |
+| POP_JUMP_IF_TRUE | 根据弹出的栈顶元素的布尔值决定是否跳转                      |
+| JUMP_ABSOLUTE    | 直接跳转到参数指定的指令位置                           |
+| SETUP_LOOP       | 设置循环开始，以SETUP_LOOP，当前stack顶位置, 循环结束位置为参数新建PyTryBlock，然后压入frame.f_blockstack |
+| GET_ITER         | 对栈顶值用PyObject_GetIter，获取迭代器取代当前栈顶的值      |
+| FOR_ITER         | 获取栈顶迭代器的迭代值然后压入栈顶，失败时弹出栈顶迭代器，然后跳到参数指定的指令处 |
+| POP_BLOCK        | 从frame.f_blockstack弹出顶部的PyTryBlock，然后从栈顶弹出值，直到栈的栈顶位置恢复到PyTryBlock设置的栈顶位置 |
+| BREAK_BLOCK      | 设置 why 为 WHY_BREAK 跳到fast_block_end处，弹出f_blockstack顶部的SETUP_LOOP的PyTryBlock，然后根据其保存的栈顶位置恢复栈状态 |
+| RAISE_VARARGS    | 根据参数获取栈顶的值设置异常信息，返回WHY_EXCEPTION         |
+| SETUP_EXCEPT     |                                          |
+| SETUP_FINALLY    |                                          |
+| END_FINALLY      |                                          |
+| LOAD_FAST        |                                          |
+| STORT_FAST       |                                          |
+| STORE_DEREF      | 将栈顶的值放入 co_freevals 中对应的PyCell对象中        |
+| LOAD_DEREF       |                                          |
+| LOAD_CLOSURE     | 取参数对应位置的PyCell对象，压入栈                     |
+| MAKE_CLOSURE     | 弹出栈顶的PyCodeObject创建一个函数，然后弹出栈顶的tuple，设置为closure |
+| BUILD_CLASS      | 弹出位于栈顶的前三个值类名、基类列表、属性字典构建一个class对象放在栈顶   |
+| LOAD_ATTR        | 将栈顶元素的指定属性放在栈顶                           |
+|                  |                                          |
 
 
 ### 循环
@@ -288,8 +290,93 @@ Python 2.2 中统一了类型机制，称之为new style class机制。
 
 metaclass对象：type
 
-Python 2.2 开始，Python在启动时，会调用_Py_ReadyTypes对类型系统进行初始化、进行填充tp_dict等操作。
+Python 2.2 开始，Python在启动时，会调用_Py_ReadyTypes然后调用PyType_Ready对类型系统进行初始化、进行填充tp_dict等操作。
+获得基类tp_base，没有的话设置为object。
+然后看基类是否已经出事话，没有的话先初始化基类。
+然后如果没有ob_type则设置为基类的ob_type。
+然后处理类型的基类列表tp_bases。
+最后开始填充tp_dict。
 
+slot，在Python内部slot可以视为PyTypeObject中定义的操作，slot还包含一些其他信息。
+```c
+typedef struct wrapperbase slotdef;
 
+struct wrapperbase{
+  char *name;  // 操作对应的名称
+  int offset;  // 函数地址在 PyHeapTypeObject中的偏移量
+  void *function;  // 
+  wrapperfunc wrapper;
+  char *doc;
+  int flags;
+  PyObject *name_strobj;
+}
+```
+```c
+typedef struct _heaptypeobject{
+  PyTypeObject ht_type;
+  PyNumberMethods as_number;
+  PyMappingMethods as_mapping;
+  PySequenceMethods as_sequence;
+  PyBufferProcs as_buffer;
+  PyObject *ht_name, *ht_slots;
+} PyHeapTypeObejct;
+```
+PyHeapTypeObject的第一个域就是PyTypeObject，所以在PyTypeObject的偏移量就是在PyHeapTypeObject的偏移量。
+
+slotdefs 中有可能同一个操作名有可能对应不同操作。所以在init_slotdefs中会用offset信息对slot进行排序。
+
+slot和PyWrapperDescObject
+```c
+#define PyDescr_COMMON \
+    PyObject_HEAD \
+    PyTypeObject *d_type; \
+    PyObject *d_name
+
+typedef struct {
+  PyDescr_COMMON;
+  struct wrapperbase *d_base;
+  void *d_wrapped;
+} PyWrapperDescrObject;
+```
+PyWrapperDescrObject中的d_wrapped就是操作对应的指针，slot 放在d_base中。
+tp_dict中保存 操作名道descriptord的关联。
+slotptr 使用type和offset获得操作的真实函数指针。
+
+初始化时，如果自定义的类有重写默认属性，Python会在fixup_slot_dispatchers中找到type中的tp_
+方法，替换为slot中的 slot_tp_方法，slot方法中查找对应的属性，然后执行。
+确定MRO (method resolve order)
+函数 mro_internal
+从头到尾访问类的基类列表，将每个基类的mro列表中的class对象放倒自己的基类列表中。
+确定了mro列表后，会遍历mro列表，将class对象没有设置而基类有设置的操作拷贝到类class对象中。
+然后Python会填充基类的子类列表tp_subclasses
+
+### 用户自定义class
+Python定义class时，实际上构造了一个function，然后调用函数返回函数的locals变量字典作为成员字典，然后使用类名、基类tuple、属性字典构造一个class对象。
+构造class对象时，会先从属性字典中查找__metaclass__ ，如果没有获取到则取第一个基类的type作为该class的metaclass。
+获得metaclass之后，build_class会通过PyObject_CallFunctionObjArgs调用metaclass，完成class对象的创建。
+
+metaclass为type时会调用type_call，然后会调用type_new方法。分配PyHeapTypeObject+PyMemberDef的内存空间、初始化tp_dict、初始化各个属性。
+会设置 tp_basesize为base.basesize+2 * sizeof(PyObject * )，2个PyObject为tp_dictoffset和tp_weaklistoffset。会设置tp_itemsize为base.tp_itemsize
+
+Python通过调用class对象来创建instance对象。调用过程中会通过tp_call调用到tp_new，然后调用到object_new来创建instance对象。
+其中会掉调用PyType_GenericAlloc申请 tp_basesize + tp_itemsize的内存空间。
+然后会调用tp_init初始化便利。
+可以通过添加属性 __new__ 和 __init__ 来添加slot覆盖tp_new 和 tp_init的调用。
+
+PyObject_GenericGetAttr
+通过tp_dictoffset找到__dict__ 
+
+PyObject_GenericSetAttr会将属性设置在__dict__中
+
+对于一个Python中的对象obj，如果obj.__class__中存在__get__，__set__，__del__ 三个操作，那么obj就可称为Python中的一个descriptor。
+
+data descriptor：定义了 `__get__`，`__set__`的descriptor
+no data descriptor：只定义了`__get__`的descriptor
+
+Python会按instance属性、class属性的顺序选择属性。
+如果在class属性中发现同名的 data descriptor，那么该descriptor 会优先于instance 属性被选择。
+Python中的函数属性实际上是一个descriptor，func_descr_get，在其中会调用PyMethod_New绑定函数和instance和class。
+PyObjectMethod调用时会将instance对象替换掉栈中的pfunc，实现增加一个参数。
+staticmethod会生成PyStaticMethod_Type类型的descriptor。
 
 
