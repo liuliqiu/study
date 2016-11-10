@@ -2,57 +2,58 @@
 #-*- coding:utf-8 -*-
 
 """
-    Writing 1/2 as a sum of inverse squares
-    How many ways are there to write the number 1/2 as a sum of inverse squares using distinct integers between 2 and 80 inclusive?
+Writing 1/2 as a sum of inverse squares
+How many ways are there to write the number 1/2 as a sum of inverse squares,
+using distinct integers between 2 and 80 inclusive?
 
-    {2,3,4,5,7,12,15,20,28,35}
-    {2,3,4,6,7,9,10,20,28,35,36,45}
-    {2,3,4,6,7,9,12,15,28,30,35,36,45}
+{2,3,4,5,7,12,15,20,28,35}
+{2,3,4,6,7,9,10,20,28,35,36,45}
+{2,3,4,6,7,9,12,15,28,30,35,36,45}
 
-    >>> f(1/2, 2, 80)
-    ?
-    >>> f(1/2, 2, 45)
-    3
+Because 1 / 2 > sum(1 / (x * x) for x in count(3)), 2 must in the integers。
+so the question equal write the number 1 / 4 as a sum of inverse squares,
+using distinct integers between 3 and 80 inclusive?
 
 """
 
-from fractions import Fraction
-from itertools import combinations
-from eulertools import factorize, memoized
 
-FS = [Fraction(1, x * x) for x in range(2, 80 + 1)]
-
-def f(val, min_, max_):
+def find_sum(target, numbers):
     """
-        #>>> f(Fraction(1, 2), 2, 80)
-        0
-        >>> f(Fraction(1, 2), 2, 45)
-        3
+    >>> find_sum(8, [1, 2, 3, 4, 5, 6])
+    4
     """
-    print val, min_, max_
-    if val == 0:
-        return 1
-    elif val < FS[max_ - 2] or max_ < min_:
+    sum_numbers = sum(numbers)
+    if target > sum_numbers or target < 0:
         return 0
+    elif target == sum_numbers:
+        return 1
     else:
-        return f(val, min_ + 1, max_) + f(val - FS[min_ - 2], min_ + 1, max_)
+        first, last = numbers[0], numbers[1:]
+        return find_sum(target, last) + find_sum(target - first, last)
 
-def all_combinations(l):
-    for i in range(1, len(l) + 1):
-        for x in combinations(l, i):
-            yield x
 
-def g(val, min_, max_):
-    median = 7
-    for c in all_combinations(range(min_, median)):
-        x = sum(Fraction(1, v * v) for v in c)
-        if val - x < sum(Fraction(1, v * v) for v in range(median, max_ + 1)):
-            print val - x, median, max_
-            #g(val - x, median, max_)
-
+def count_inverse_squares(number):
+    """
+    >>> count_inverse_squares(35)
+    1
+    """
+    factorial = 1
+    for p, n in [(2, 6), (3, 3), (5, 2), (7, 2), (11, 1), (13, 1)]:
+        factorial *= (p ** n)
+    print factorial
+    target = (factorial // 2) ** 2
+    numbers = tuple(
+        (factorial // n) ** 2
+        for n in range(3, number + 1)
+        if factorial % n == 0
+    )
+    print len(numbers)
+    print target, numbers
+    #return find_sum(target, numbers)
 
 def main():
-    print g(Fraction(1, 2), 2, 80)
+    print count_inverse_squares(45) # 33s
 
 if __name__ == "__main__":
     main()
+
