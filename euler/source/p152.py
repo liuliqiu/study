@@ -16,20 +16,22 @@ using distinct integers between 3 and 80 inclusive?
 
 """
 
+from collections import defaultdict
 
-def find_sum(target, numbers):
+
+def find_sum(target, numbers, sum_numbers, index=0):
     """
-    >>> find_sum(8, [1, 2, 3, 4, 5, 6])
+    >>> find_sum(8, [1, 2, 3, 4, 5, 6], 21)
     4
     """
-    sum_numbers = sum(numbers)
     if target > sum_numbers or target < 0:
         return 0
     elif target == sum_numbers:
         return 1
     else:
-        first, last = numbers[0], numbers[1:]
-        return find_sum(target, last) + find_sum(target - first, last)
+        first = numbers[index]
+        last_sum = sum_numbers - first
+        return find_sum(target, numbers, last_sum, index + 1) + find_sum(target - first, numbers, last_sum, index + 1)
 
 
 def count_inverse_squares(number):
@@ -49,10 +51,11 @@ def count_inverse_squares(number):
     )
     print len(numbers)
     print target, numbers
-    #return find_sum(target, numbers)
+    sum_numbers = sum(numbers)
+    return find_sum(target, numbers, sum_numbers)
 
 def main():
-    print count_inverse_squares(45) # 33s
+    print count_inverse_squares(45) # 27s
 
 if __name__ == "__main__":
     main()
