@@ -1,5 +1,5 @@
 #-*- coding:utf-8 -*-
-import numpy
+
 import math
 import time
 from itertools import cycle

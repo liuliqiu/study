@@ -15,8 +15,11 @@ so the question equal write the number 1 / 4 as a sum of inverse squares,
 using distinct integers between 3 and 80 inclusive?
 
 """
-
+from itertools import count
 from collections import defaultdict
+
+from utils.prime import primes
+from utils.eulertools import factorize_to
 
 
 def find_sum(target, numbers, sum_numbers, index=0):
@@ -34,7 +37,7 @@ def find_sum(target, numbers, sum_numbers, index=0):
         return find_sum(target, numbers, last_sum, index + 1) + find_sum(target - first, numbers, last_sum, index + 1)
 
 
-def count_inverse_squares(number):
+def count_inverse_squares_old(number):
     """
     >>> count_inverse_squares(35)
     1
@@ -54,8 +57,23 @@ def count_inverse_squares(number):
     sum_numbers = sum(numbers)
     return find_sum(target, numbers, sum_numbers)
 
+
+
+def count_inverse_squares(number):
+    prime_list = list(reversed(list(primes(number / 3 + 1))))
+    factories = dict(zip(count(2), factorize_to(number)[1:]))
+
+    data = defaultdict(list)
+    for n, fact in factories.items():
+        data[max(fact.keys())].append(n)
+
+    for p in prime_list:
+        choises = data[p]
+        print choises
+
 def main():
-    print count_inverse_squares(45) # 27s
+    # print count_inverse_squares(45) # 27s
+    print count_inverse_squares(35) # 27s
 
 if __name__ == "__main__":
     main()
