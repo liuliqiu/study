@@ -65,3 +65,72 @@ Given a grid, its similarity string is a string of zeroes and ones that describe
     { 3,9, 5,1, 10,6, 2,7, 8,11, 12,4 }
     Returns: "100000101010"
 """
+
+class GridSortMax(object):
+    def findMax(self, n, m, s):
+        rev = {}
+        for i, v in enumerate(s):
+            rev[v] = i
+        unsolved_columns = set(range(m))
+
+        for row_index in range(n):
+            min_unsolved_in_row = row_index * n + min(unsolved_columns) + 1
+            solved_row_index = rev[min_unsolved_in_row] / m
+
+            if solved_row_index != row_index:
+                for j in range(m):
+                    index_1, index_2 = row_index * m + j, solved_row_index * m + j
+                    s[index_1], s[index_2] = s[index_2], s[index_1]
+                    rev[s[index_1]] = index_1
+                    rev[s[index_2]] = index_2
+
+            temp_set = set()
+            print(s)
+            for j in unsolved_columns:
+                value = s[row_index * m + j]
+                if (value - 1) / m == row_index:
+                    new_j = (value - 1) % m
+                    if new_j != j:
+                        print(j, new_j)
+                        for i in range(n):
+                            index_1, index_2 = i * m + j, i * m + new_j
+                            s[index_1], s[index_2] = s[index_2], s[index_1]
+                            rev[s[index_1]] = index_1
+                            rev[s[index_2]] = index_2
+                    print(s)
+                temp_set.add(j)
+            print(temp_set, unsolved_columns)
+            for j in temp_set:
+                unsolved_columns.remove(j)
+
+            print(s)
+            if len(unsolved_columns) <= 1:
+                unsolved_rows = set(range(row_index + 1, n))
+                for i in range(row_index + 1, n):
+                    for j in range(m):
+                        value = i * m + j + 1
+                        new_i = rev[value] / m
+                        if(rev[value] % m == j and new_i in unsolved_rows):
+                            if new_i != i:
+                                for _j in range(m):
+                                    index_1, index_2 = i * m + _j, new_i * m + _j
+                                    s[index_1], s[index_2] = s[index_2], s[index_1]
+                                    rev[s[index_1]] = index_1
+                                    rev[s[index_2]] = index_2
+                            unsolved_rows.remove(i)
+                            break
+                    print(s)
+                break
+
+        print(s)
+        return "".join("1" if (i==v) else "0" for i, v in enumerate(s, 1))
+
+
+if __name__ == "__main__":
+    obj = GridSortMax()
+    print(obj.findMax(2, 2, [1, 2, 3, 4]))
+    print(obj.findMax(2, 2, [2, 1, 3, 4]))
+    assert obj.findMax(3, 5, [ 5,2,10,7,9, 3,4,14,11,1, 15,12,6,8,13]) == "101100100100000"
+    assert obj.findMax(6, 2, [3,9, 5,1, 10,6, 2,7, 8,11, 12,4]) == "100000101010"
+    print(obj.findMax(1, 10, [10,6,2,3,5,7,1,9,4,8]))
+

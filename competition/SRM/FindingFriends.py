@@ -109,3 +109,23 @@ The list of integers is provided in the following way: You are given an len, a i
           Returns: 59543
           Be careful of overflow when generating the array.
 """
+
+
+class FindingFriends(object):
+    def shortestDistance(self, length, init, a, b, c, d, m):
+        result = [0] * length
+        for x in self.get_data(length, init, a, b, c, d):
+            print(x)
+
+    def get_data(self, length, init, a, b, c, d):
+        last = init[-1]
+        for i in range(length):
+            if i < len(init):
+                yield init[i]
+            else:
+                last = (last * a + b * i + c) % d
+                yield last
+
+if __name__ == "__main__":
+    obj = FindingFriends()
+    print(obj.shortestDistance(6, [8,1,10,2,9,7], 12, 34, 56, 78, 2))
