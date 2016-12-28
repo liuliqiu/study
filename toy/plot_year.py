@@ -25,7 +25,7 @@ def plot_year(data, get_color):
     margin = (3, 3, 3, 3)
     size = (10, 10)
     space = 2
-    width = size[0]  * x + space * (x - 1) + margin[1] + margin[3]
+    width = size[0]  * (x + 1) + space * (x - 1) + margin[1] + margin[3]
     height = size[1] * 7 + space * 6 + margin[0] + margin[2]
     img = Image.new("RGBA", (width, height), (255, 255, 255, 0))
     draw = ImageDraw.Draw(img)
@@ -38,8 +38,8 @@ def plot_year(data, get_color):
             margin[0] + (y + 1) * size[1] + y * space,
         )
         draw.rectangle(xy, color)
-    img.show()
-    # img.save("year.png")
+    # img.show()
+    img.save("year.png")
 
 
 def get_color(val):
@@ -58,12 +58,19 @@ def get_color(val):
 if __name__ == "__main__":
     from datetime import datetime
     from collections import defaultdict
+    import json
+
     data_list = [
-        ("2016-12-18 09:44:10", 12.01),
-        ("2016-12-14 08:46:10", 4.12),
     ]
+    # with open("run_2015.json") as run_log:
+    #     for data in json.load(run_log)["datas"]:
+    #         data_list.append((datetime.fromtimestamp(data["lasttime"]), data["meter"]/1000.))
+    with open("run.json") as run_log:
+        for data in json.load(run_log)["datas"]:
+            data_list.append((datetime.fromtimestamp(data["lasttime"]), data["meter"]/1000.))
+        print(data_list)
     data = defaultdict(int)
     for t, d in data_list:
-        date = datetime.strptime(t,  "%Y-%m-%d %H:%M:%S").date()
+        date = t.date()
         data[date] += d
     plot_year(data, get_color)
