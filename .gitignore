@@ -2,3 +2,5 @@
 *.class
 *.zip
 *.jar
+.idea
+.cache

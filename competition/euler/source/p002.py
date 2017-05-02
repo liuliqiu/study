@@ -7,20 +7,23 @@ four million.
 """
 
 def sum_even_fibs_use_list_fibs(limit):
+    """
+        生成非波拉契数列去其中偶数项求和。
+    """
     fibs = [1, 2]
     while fibs[-2] + fibs[-1] < limit:
         fibs.append(fibs[-2] + fibs[-1])
     return sum(n for n in fibs if n % 2 == 0)
 
-
-def sum_even_fibs_use_list(limit):
-    even_fibs = [2, 8]
-    while even_fibs[-2] + 4 * even_fibs[-1] < limit:
-        even_fibs.append(even_fibs[-2] + 4 * even_fibs[-1])
-    return sum(even_fibs)
-
-
 def iter_even_fib(limit):
+    """
+        非波拉契数具有每隔两个奇数就会出现一个偶数的规律。
+        x   y   (x + y)     (x + y * 2)     (x * 2 + y * 3)     (x * 3 + y * 5)     (x * 5 + y * 8)
+        隔两个取一个得到
+        x   (x + y * 2)     (x * 5 + y * 8)
+        (x * 5 + y * 8) = x + 4 * (x + y * 2)
+        可以得知偶数非波拉契数列具有 a3 = 4 * a2 + a1 的性质
+    """
     even_fib1, even_fib2 = 2, 8
     if even_fib1 > limit:
         raise StopIteration
@@ -31,10 +34,11 @@ def iter_even_fib(limit):
 
 def sum_even_fibs(limit):
     """
-    >>> sum_even_fibs(10)
-    10
-    >>> sum_even_fibs(4000000)
-    4613732
+        迭代生产偶非波拉契数，求和。
     """
     return sum(iter_even_fib(limit))
+
+def test_sum_even_fibs():
+    assert sum_even_fibs(10) == 10
+    assert sum_even_fibs(4000000) == 4613732
 
