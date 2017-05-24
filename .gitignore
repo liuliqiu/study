@@ -4,3 +4,4 @@
 *.jar
 .idea
 .cache
+.DS_store

@@ -2,8 +2,15 @@
 from datetime import timedelta
 from PIL import Image, ImageDraw
 
+def plot_year_list(data_list, get_color):
+    data = defaultdict(int)
+    for t, d in data_list:
+        date = t.date()
+        data[date] += d
+    return plot_year(data, get_color)
 
 def plot_year(data, get_color):
+    print(data)
     first_day = min(data.keys())
     last_day = max(data.keys())
 
@@ -39,7 +46,8 @@ def plot_year(data, get_color):
         )
         draw.rectangle(xy, color)
     # img.show()
-    img.save("year.png")
+    # img.save("year.png")
+    return img
 
 
 def get_color(val):
@@ -55,22 +63,53 @@ def get_color(val):
     else:
         return colors[4]
 
+
 if __name__ == "__main__":
     from datetime import datetime
     from collections import defaultdict
     import json
 
-    data_list = [
-    ]
-    # with open("run_2015.json") as run_log:
-    #     for data in json.load(run_log)["datas"]:
-    #         data_list.append((datetime.fromtimestamp(data["lasttime"]), data["meter"]/1000.))
-    with open("run.json") as run_log:
-        for data in json.load(run_log)["datas"]:
-            data_list.append((datetime.fromtimestamp(data["lasttime"]), data["meter"]/1000.))
-        print(data_list)
-    data = defaultdict(int)
-    for t, d in data_list:
-        date = t.date()
-        data[date] += d
-    plot_year(data, get_color)
+    def plot_2015():
+        data_list = []
+        with open("run_2015.json") as run_log:
+            for data in json.load(run_log)["datas"]:
+                data_list.append((datetime.fromtimestamp(data["lasttime"]), data["meter"]/1000.))
+        data_list = filter(lambda x:x[0] < datetime.strptime("2016-01-01", "%Y-%m-%d"), data_list)
+        return plot_year_list(data_list, get_color)
+
+    def plot_2016():
+        data_list = []
+        with open("run.json") as run_log:
+            for data in json.load(run_log)["datas"]:
+                data_list.append((datetime.fromtimestamp(data["lasttime"]), data["meter"]/1000.))
+        data_list.append((datetime.strptime("2016-12-10", "%Y-%m-%d"), 11.10))
+        data_list.append((datetime.strptime("2016-12-11", "%Y-%m-%d"), 15.08))
+        data_list.append((datetime.strptime("2016-12-13", "%Y-%m-%d"), 4.11))
+        data_list.append((datetime.strptime("2016-12-14", "%Y-%m-%d"), 4.12))
+        data_list.append((datetime.strptime("2016-12-18", "%Y-%m-%d"), 12.01))
+        data_list.append((datetime.strptime("2016-12-28", "%Y-%m-%d"), 2.04))
+        data_list.append((datetime.strptime("2016-12-29", "%Y-%m-%d"), 3.07))
+        data_list.append((datetime.strptime("2016-12-30", "%Y-%m-%d"), 4.21))
+
+        return plot_year_list(data_list, get_color)
+
+    img_2015 = plot_2015()
+    img_2015.save("year_2015.png")
+    img_2016 = plot_2016()
+    img_2016.save("year_2016.png")
+
+    width = max(img_2015.size[0], img_2016.size[0])
+    height = img_2015.size[1] + img_2016.size[1] + 2
+    img = Image.new("RGBA", (width, height), (255, 255, 255, 0))
+
+    # h = 0
+    # p = img_2015.crop((0, 0, img_2015.size[0], img_2015.size[1]))
+    # img.paste(p, (width - img_2015.size[0], h, img_2015.size[0], img_2015.size[1]))
+    # h += img_2015.size[1] + 2
+
+    # p = img_2016.crop((0, 0, img_2016.size[0], img_2016.size[1]))
+    # img.paste(p, (width - img_2016.size[0], h, img_2016.size[0], img_2016.size[1]))
+
+    img.save("year.png")
+
+
