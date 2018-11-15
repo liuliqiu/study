@@ -1,17 +1,16 @@
-
-- 8puzzle
-- all pairs shortest path
+- coursera algorithms part1
+  - 8puzzle
+  - collinear
+  - kd tree
+  - percolation
+  - random queue
 - boolean satisfiability problem
 - checkstyle
 - classic
 - clust big
-- collinear
-- dp
+- dynamic programming
 - graph
+  - all pairs shortest path
 - greedy
-- kd tree
 - knapsack
-- percolation
-- random queue
 - travelling salesman problem
-
