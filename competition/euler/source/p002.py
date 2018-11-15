@@ -6,6 +6,7 @@ Find the sum of all the even-valued terms in the sequence which do not exceed
 four million.
 """
 
+
 def sum_even_fibs_use_list_fibs(limit):
     """
         生成非波拉契数列去其中偶数项求和。
@@ -14,6 +15,7 @@ def sum_even_fibs_use_list_fibs(limit):
     while fibs[-2] + fibs[-1] < limit:
         fibs.append(fibs[-2] + fibs[-1])
     return sum(n for n in fibs if n % 2 == 0)
+
 
 def iter_even_fib(limit):
     """
@@ -32,13 +34,14 @@ def iter_even_fib(limit):
         yield even_fib2
         even_fib1, even_fib2 = even_fib2, even_fib1 + 4 * even_fib2
 
+
 def sum_even_fibs(limit):
     """
         迭代生产偶非波拉契数，求和。
     """
     return sum(iter_even_fib(limit))
 
+
 def test_sum_even_fibs():
     assert sum_even_fibs(10) == 10
     assert sum_even_fibs(4000000) == 4613732
-

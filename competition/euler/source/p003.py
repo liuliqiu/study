@@ -18,7 +18,7 @@ def factors(number):
         while number % factor == 0:
             number = number // factor
             yield factor
-        factor += (2 if factor != 2 else 1)
+        factor += 2 if factor != 2 else 1
     if number != 1:
         yield number
 
@@ -31,4 +31,9 @@ def largest_prime_factor(number):
     6857
     """
     return max(factors(number))
+
+
+def test_largest_prime_factor():
+    assert largest_prime_factor(13195) == 29
+    assert largest_prime_factor(600851475143) == 6857
 

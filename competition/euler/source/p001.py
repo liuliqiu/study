@@ -14,6 +14,7 @@ def _sum_multiples_3_or_5(limit):
     """
     return sum(i for i in range(limit) if i % 3 == 0 or i % 5 == 0)
 
+
 def sum_multiples_3_or_5(limit):
     """
         求出3的倍数的和加上5的倍数的和，减去重复加上的15的倍数的和
@@ -23,7 +24,7 @@ def sum_multiples_3_or_5(limit):
     sum_divisible_by = lambda k: sum_to((limit - 1) // k) * k
     return sum_divisible_by(3) + sum_divisible_by(5) - sum_divisible_by(15)
 
+
 def test_sum_multiples():
     assert sum_multiples_3_or_5(10) == 23
     assert sum_multiples_3_or_5(1000) == 233168
-
