@@ -4,13 +4,13 @@
   - kd tree
   - percolation
   - random queue
-- boolean satisfiability problem
-- checkstyle
 - classic
-- clust big
 - dynamic programming
 - graph
   - all pairs shortest path
 - greedy
-- knapsack
-- travelling salesman problem
+- others
+  - knapsack
+  - travelling salesman problem
+  - boolean satisfiability problem
+  - clust big
