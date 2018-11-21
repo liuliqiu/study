@@ -16,23 +16,33 @@
 ##
 ##Find the least number for which the proportion of bouncy numbers is exactly 99%.
 
+
 def bouncy(n):
-    s=str(n)
-    l=len(s)
-    if l<3:
+    s = str(n)
+    l = len(s)
+    if l < 3:
         return False
     else:
-        return not(all(s[i]<=s[i+1] for i in range(l-1)) or all(s[i]>=s[i+1] for i in range(l-1)))
-X=99
+        return not (
+            all(s[i] <= s[i + 1] for i in range(l - 1))
+            or all(s[i] >= s[i + 1] for i in range(l - 1))
+        )
+
+
+X = 99
+
+
 def p112():
-    b,nb=0,1
-    i=2
-    while b/nb<X:
+    b, nb = 0, 1
+    i = 2
+    while b / nb < X:
         if bouncy(i):
-            b=b+1
+            b = b + 1
         else:
-            nb=nb+1
-##        print(i,b,nb)
-        i=i+1
-    return i-1
+            nb = nb + 1
+        ##        print(i,b,nb)
+        i = i + 1
+    return i - 1
+
+
 print(p112())

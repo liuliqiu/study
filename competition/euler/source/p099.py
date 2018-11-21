@@ -11,16 +11,20 @@
 ##NOTE: The first two lines in the file represent the numbers in the example given
 ##above.
 import math
+
+
 def p99():
-    re=0
-    a,b,i=1,0,1
-    for line in open(r'txt\base_exp.txt'):
-        s=line.strip().split(',')
-        n=int(s[0])
-        e=int(s[1])
-        if math.pow(a,b/e)<n:
-            re=i
-            a,b=n,e
-        i=i+1
+    re = 0
+    a, b, i = 1, 0, 1
+    for line in open(r"txt\base_exp.txt"):
+        s = line.strip().split(",")
+        n = int(s[0])
+        e = int(s[1])
+        if math.pow(a, b / e) < n:
+            re = i
+            a, b = n, e
+        i = i + 1
     return re
+
+
 print(p99())

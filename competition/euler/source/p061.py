@@ -19,27 +19,41 @@
 ##each polygonal type: triangle, square, pentagonal, hexagonal, heptagonal, and
 ##octagonal, is represented by a different number in the set.
 
+
 def P(a):
-    return lambda n:(n*((a-2)*n-(a-4)))>>1
+    return lambda n: (n * ((a - 2) * n - (a - 4))) >> 1
+
+
 def All():
-    return [[str(P(a)(i)) for i in range(150) if 1000<P(a)(i)<10000 and str(P(a)(i))[2]!='0'] for a in range(3,9)]
+    return [
+        [
+            str(P(a)(i))
+            for i in range(150)
+            if 1000 < P(a)(i) < 10000 and str(P(a)(i))[2] != "0"
+        ]
+        for a in range(3, 9)
+    ]
+
+
 def fi():
-    v=All()
-    z=[[i,5]for i in v[5]]
-    s=[]
+    v = All()
+    z = [[i, 5] for i in v[5]]
+    s = []
     for t in range(5):
         for i in range(5):
             for j in v[i]:
                 for k in z:
-                    if i not in k and k[0][:2]==j[2:]:
-                        temp=k[:]
-                        temp[0]=j[:2]+temp[0]
+                    if i not in k and k[0][:2] == j[2:]:
+                        temp = k[:]
+                        temp[0] = j[:2] + temp[0]
                         temp.append(i)
                         s.append(temp)
-        z=s
-        s=[]
+        z = s
+        s = []
     for i in z:
-        if i[0][:2]==i[0][-2:]:
+        if i[0][:2] == i[0][-2:]:
             print(i[0])
-            return sum(int(i[0][2*j:2*j+2]) for j in range(6))*101
+            return sum(int(i[0][2 * j : 2 * j + 2]) for j in range(6)) * 101
+
+
 print(fi())

@@ -6,19 +6,22 @@
 ##Given that the three characters are always asked for in order, analyse the
 ##file so as to determine the shortest possible secret passcode of unknown length.
 
+
 def fi():
-    f=open('txt\\keylog.txt')
-    v={}
+    f = open("txt\\keylog.txt")
+    v = {}
     for s in f.readlines():
-        s=s.strip()
-        if s!='':
-            for i,c in enumerate(s):
-                for j in range(i+1,len(s)):
+        s = s.strip()
+        if s != "":
+            for i, c in enumerate(s):
+                for j in range(i + 1, len(s)):
                     if c in v:
                         v[c].append(s[j])
                     else:
-                        v[c]=[s[j]]
+                        v[c] = [s[j]]
     for i in v:
-        v[i]=set(v[i])
+        v[i] = set(v[i])
     print(v)
+
+
 fi()

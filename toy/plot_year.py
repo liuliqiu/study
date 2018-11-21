@@ -1,6 +1,6 @@
-
 from datetime import timedelta
 from PIL import Image, ImageDraw
+
 
 def plot_year_list(data_list, get_color):
     data = defaultdict(int)
@@ -8,6 +8,7 @@ def plot_year_list(data_list, get_color):
         date = t.date()
         data[date] += d
     return plot_year(data, get_color)
+
 
 def plot_year(data, get_color):
     print(data)
@@ -26,13 +27,13 @@ def plot_year(data, get_color):
         y = day.weekday()
         if y == 0:
             x += 1
-        elif day.day== 1:
+        elif day.day == 1:
             x += 1
 
     margin = (3, 3, 3, 3)
     size = (10, 10)
     space = 2
-    width = size[0]  * (x + 1) + space * (x - 1) + margin[1] + margin[3]
+    width = size[0] * (x + 1) + space * (x - 1) + margin[1] + margin[3]
     height = size[1] * 7 + space * 6 + margin[0] + margin[2]
     img = Image.new("RGBA", (width, height), (255, 255, 255, 0))
     draw = ImageDraw.Draw(img)
@@ -51,7 +52,13 @@ def plot_year(data, get_color):
 
 
 def get_color(val):
-    colors = ((238, 238, 238), (214, 230, 133), (140, 198, 101), (68, 163, 64), (30, 104, 35))
+    colors = (
+        (238, 238, 238),
+        (214, 230, 133),
+        (140, 198, 101),
+        (68, 163, 64),
+        (30, 104, 35),
+    )
     if val == 0:
         return colors[0]
     elif val < 5:
@@ -73,15 +80,21 @@ if __name__ == "__main__":
         data_list = []
         with open("run_2015.json") as run_log:
             for data in json.load(run_log)["datas"]:
-                data_list.append((datetime.fromtimestamp(data["lasttime"]), data["meter"]/1000.))
-        data_list = filter(lambda x:x[0] < datetime.strptime("2016-01-01", "%Y-%m-%d"), data_list)
+                data_list.append(
+                    (datetime.fromtimestamp(data["lasttime"]), data["meter"] / 1000.0)
+                )
+        data_list = filter(
+            lambda x: x[0] < datetime.strptime("2016-01-01", "%Y-%m-%d"), data_list
+        )
         return plot_year_list(data_list, get_color)
 
     def plot_2016():
         data_list = []
         with open("run.json") as run_log:
             for data in json.load(run_log)["datas"]:
-                data_list.append((datetime.fromtimestamp(data["lasttime"]), data["meter"]/1000.))
+                data_list.append(
+                    (datetime.fromtimestamp(data["lasttime"]), data["meter"] / 1000.0)
+                )
         data_list.append((datetime.strptime("2016-12-10", "%Y-%m-%d"), 11.10))
         data_list.append((datetime.strptime("2016-12-11", "%Y-%m-%d"), 15.08))
         data_list.append((datetime.strptime("2016-12-13", "%Y-%m-%d"), 4.11))
@@ -111,5 +124,3 @@ if __name__ == "__main__":
     # img.paste(p, (width - img_2016.size[0], h, img_2016.size[0], img_2016.size[1]))
 
     img.save("year.png")
-
-

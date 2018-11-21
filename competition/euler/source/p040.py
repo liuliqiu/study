@@ -7,16 +7,22 @@
 ##d1*d10*d100*d1000*d10000*100000*d1000000
 
 import Crazy
+
+
 def d(n):
-    x=n
-    for i in range(1,10):
-        if x>i*(9*10**(i-1)):
-            x=x-i*(9*10**(i-1))
+    x = n
+    for i in range(1, 10):
+        if x > i * (9 * 10 ** (i - 1)):
+            x = x - i * (9 * 10 ** (i - 1))
         else:
-            z=x%i
-            x=(x+i-1)//i
-            x=x+10**(i-1)-1
-            return int(list(str(x))[(z+i-1)%i])
+            z = x % i
+            x = (x + i - 1) // i
+            x = x + 10 ** (i - 1) - 1
+            return int(list(str(x))[(z + i - 1) % i])
+
+
 def fi():
-    return Crazy.muti(d(10**i) for i in range(7))
+    return Crazy.muti(d(10 ** i) for i in range(7))
+
+
 print(fi())

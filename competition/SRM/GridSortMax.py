@@ -66,6 +66,7 @@ Given a grid, its similarity string is a string of zeroes and ones that describe
     Returns: "100000101010"
 """
 
+
 class GridSortMax(object):
     def findMax(self, n, m, s):
         rev = {}
@@ -110,7 +111,7 @@ class GridSortMax(object):
                     for j in range(m):
                         value = i * m + j + 1
                         new_i = rev[value] / m
-                        if(rev[value] % m == j and new_i in unsolved_rows):
+                        if rev[value] % m == j and new_i in unsolved_rows:
                             if new_i != i:
                                 for _j in range(m):
                                     index_1, index_2 = i * m + _j, new_i * m + _j
@@ -123,14 +124,16 @@ class GridSortMax(object):
                 break
 
         print(s)
-        return "".join("1" if (i==v) else "0" for i, v in enumerate(s, 1))
+        return "".join("1" if (i == v) else "0" for i, v in enumerate(s, 1))
 
 
 if __name__ == "__main__":
     obj = GridSortMax()
     print(obj.findMax(2, 2, [1, 2, 3, 4]))
     print(obj.findMax(2, 2, [2, 1, 3, 4]))
-    assert obj.findMax(3, 5, [ 5,2,10,7,9, 3,4,14,11,1, 15,12,6,8,13]) == "101100100100000"
-    assert obj.findMax(6, 2, [3,9, 5,1, 10,6, 2,7, 8,11, 12,4]) == "100000101010"
-    print(obj.findMax(1, 10, [10,6,2,3,5,7,1,9,4,8]))
-
+    assert (
+        obj.findMax(3, 5, [5, 2, 10, 7, 9, 3, 4, 14, 11, 1, 15, 12, 6, 8, 13])
+        == "101100100100000"
+    )
+    assert obj.findMax(6, 2, [3, 9, 5, 1, 10, 6, 2, 7, 8, 11, 12, 4]) == "100000101010"
+    print(obj.findMax(1, 10, [10, 6, 2, 3, 5, 7, 1, 9, 4, 8]))

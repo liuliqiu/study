@@ -26,37 +26,44 @@
 ##Note: You can assume that all the Roman numerals in the file contain no more
 ##than four consecutive identical units.
 
+
 def p89():
-    Tr={'I':1,'V':5,'X':10,'L':50,'C':100,'D':500,'M':1000}
-    Mi=[0,1,2,3,2,1,2,3,4,2]
+    Tr = {"I": 1, "V": 5, "X": 10, "L": 50, "C": 100, "D": 500, "M": 1000}
+    Mi = [0, 1, 2, 3, 2, 1, 2, 3, 4, 2]
+
     def num(c):
         return Tr[c]
+
     def va(s):
-        result=0
+        result = 0
         for i in range(len(s)):
-            if i==(len(s)-1) or num(s[i])>=num(s[i+1]):
-                result=result+num(s[i])
+            if i == (len(s) - 1) or num(s[i]) >= num(s[i + 1]):
+                result = result + num(s[i])
             else:
-                result=result-num(s[i])
+                result = result - num(s[i])
         return result
+
     def cOfMin(n):
-##        print(n)
-        re=0
-        i=0
-        while n!=0:
-            if i<3:
-                re=re+Mi[n%10]
+        ##        print(n)
+        re = 0
+        i = 0
+        while n != 0:
+            if i < 3:
+                re = re + Mi[n % 10]
             else:
-                re=re+n%10
-            n=n//10
-            i=i+1
+                re = re + n % 10
+            n = n // 10
+            i = i + 1
         return re
-    test=['MMMMDCLXXII','CCXCVIII']
-##    for i in test:
-##        print(cOfMin(va(i)))
-    m=sum(cOfMin(va(line.strip('\n'))) for line in open('txt/roman.txt'))
-    n=sum(len(line.strip('\n')) for line in open('txt/roman.txt'))
-    return n-m
+
+    test = ["MMMMDCLXXII", "CCXCVIII"]
+    ##    for i in test:
+    ##        print(cOfMin(va(i)))
+    m = sum(cOfMin(va(line.strip("\n"))) for line in open("txt/roman.txt"))
+    n = sum(len(line.strip("\n")) for line in open("txt/roman.txt"))
+    return n - m
+
+
 ##def t2():
 ##    re=0
 ##    for line in open('txt/roman.txt'):

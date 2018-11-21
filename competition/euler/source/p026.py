@@ -14,27 +14,30 @@
 ##Find the value of d  1000 for which 1/d contains the longest recurring cycle
 ##in its decimal fraction part.
 
+
 def cycle(n):
-    i=1
-    v=[]
+    i = 1
+    v = []
     while True:
-        while i<n:
-            i=i*10
-        k=i/n
-        i=i%n
-        if i==0:
+        while i < n:
+            i = i * 10
+        k = i / n
+        i = i % n
+        if i == 0:
             return 0
         if k in v:
-            return len(v)-v.index(k)
+            return len(v) - v.index(k)
         v.append(k)
+
+
 def fi(n):
-    s=0
-    result=0
-    for i in range(1,1000):
-        if cycle(i)>s:
-            s=cycle(i)
-            result=i
+    s = 0
+    result = 0
+    for i in range(1, 1000):
+        if cycle(i) > s:
+            s = cycle(i)
+            result = i
     return result
+
+
 print(fi(1000))
-        
-        

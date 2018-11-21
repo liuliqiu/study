@@ -7,21 +7,29 @@
 ##difference is pentagonal and D = |Pk  Pj| is minimised; what is the value
 ##of D?
 import math
+
+
 def p(n):
-    return n*(3*n-1)//2
+    return n * (3 * n - 1) // 2
+
+
 def ispentagonal(n):
-    return (1+math.sqrt(24*n+1))%6==0
+    return (1 + math.sqrt(24 * n + 1)) % 6 == 0
+
+
 def fi():
-    v=[1]
-    for i in range(2,100000):
-        if i%500==0:
+    v = [1]
+    for i in range(2, 100000):
+        if i % 500 == 0:
             print(i)
         v.append(p(i))
-        for j in range(i,0,-1):
-            m=v[i-1]+v[j-1]
+        for j in range(i, 0, -1):
+            m = v[i - 1] + v[j - 1]
             if ispentagonal(m):
-                if ispentagonal(m+v[i-1]):
-                    return v[j-1]
-                if ispentagonal(m+v[j-1]):
-                    return v[i-1]
+                if ispentagonal(m + v[i - 1]):
+                    return v[j - 1]
+                if ispentagonal(m + v[j - 1]):
+                    return v[i - 1]
+
+
 print(fi())

@@ -14,27 +14,31 @@
 ##What is the value of the first triangle number to have over five hundred
 ##divisors?
 
+
 def numberofdivisors(s):
-    if s<=1:
+    if s <= 1:
         return 1
-    n=2
-    i=2
-    while i*i<=s:
-        if i*i==s:
-            return n+1
-        if s%i==0:
-            n=n+2
-        i=i+1
+    n = 2
+    i = 2
+    while i * i <= s:
+        if i * i == s:
+            return n + 1
+        if s % i == 0:
+            n = n + 2
+        i = i + 1
     return n
 
+
 def fi(x):
-    i=1
+    i = 1
     while True:
-        if i%2==0:
+        if i % 2 == 0:
             tmp = numberofdivisors(i / 2) * numberofdivisors(i + 1)
         else:
             tmp = numberofdivisors(i) * numberofdivisors((i + 1) / 2)
         if tmp > x:
             return (i * i + i) / 2
         i += 1
+
+
 print(fi(500))

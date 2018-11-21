@@ -24,35 +24,41 @@
 ##How many chains, with a starting number below one million, contain exactly sixty
 ##non-repeating terms?
 
-F=[1]
-for i in range(1,10):
-    F.append(F[-1]*i)
+F = [1]
+for i in range(1, 10):
+    F.append(F[-1] * i)
+
+
 def f(n):
-    if n==0:
+    if n == 0:
         return 1
-    result=0
-    while n>0:
-        result,n=result+F[n%10],n//10
+    result = 0
+    while n > 0:
+        result, n = result + F[n % 10], n // 10
     return result
+
+
 def p74():
-    re={}
-    re[145]=1
-    re[169]=re[363601]=re[1454]=3
-    re[871]=re[872]=re[45361]=re[45362]=2
-    re[40585]=1
-    re[1]=re[2]=1
-    for i in range(10**6):
+    re = {}
+    re[145] = 1
+    re[169] = re[363601] = re[1454] = 3
+    re[871] = re[872] = re[45361] = re[45362] = 2
+    re[40585] = 1
+    re[1] = re[2] = 1
+    for i in range(10 ** 6):
         if i in re:
             continue
-        Va,j=f(i),i
-        L=[]
+        Va, j = f(i), i
+        L = []
         while j not in re:
             L.append(j)
-            Va,j=f(Va),Va
-        k=re[j]
-        if i%1000==0:
+            Va, j = f(Va), Va
+        k = re[j]
+        if i % 1000 == 0:
             print(i)
-        for j,b in enumerate(L):
-            re[b]=k+len(L)-j
-    return len([i for i in re if i<10**6 and re[i]==60])
+        for j, b in enumerate(L):
+            re[b] = k + len(L) - j
+    return len([i for i in re if i < 10 ** 6 and re[i] == 60])
+
+
 print(p74())

@@ -1,7 +1,8 @@
-#-*- coding:utf-8 -*-
+# -*- coding:utf-8 -*-
 """Minimum spanning trees
     Algorithms: Chapter 5.1
 """
+
 
 def mst(node_count, lst):
     """
@@ -18,8 +19,9 @@ def mst(node_count, lst):
     result = 0
     while len(tree_nodes) < node_count:
         for node1, node2, weight in sorted_lst:
-            if (node1 in tree_nodes and node2 not in tree_nodes) or \
-                    (node1 not in tree_nodes and node2 in tree_nodes):
+            if (node1 in tree_nodes and node2 not in tree_nodes) or (
+                node1 not in tree_nodes and node2 in tree_nodes
+            ):
                 result += weight
                 node = node2 if node1 in tree_nodes else node1
                 tree_nodes.add(node)

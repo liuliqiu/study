@@ -17,20 +17,27 @@
 ##NOTE: The first two examples in the file represent the triangles in the example
 ##given above.
 
-def f(a,b,c):
-    if a[0]!=b[0]:
-        X=(a[1]-b[1])/(a[0]-b[0])
-        Y=a[1]-a[0]*X
-        Z=X*c[0]-c[1]+Y
-        return Y*Z>0
+
+def f(a, b, c):
+    if a[0] != b[0]:
+        X = (a[1] - b[1]) / (a[0] - b[0])
+        Y = a[1] - a[0] * X
+        Z = X * c[0] - c[1] + Y
+        return Y * Z > 0
     else:
-        return (a[0]-0)*(a[0]-c[0])>0
+        return (a[0] - 0) * (a[0] - c[0]) > 0
+
+
 def g(l):
-    a,b,c=(l[0],l[1]),(l[2],l[3]),(l[4],l[5])
-    return f(a,b,c) and f(b,c,a) and f(c,a,b)
+    a, b, c = (l[0], l[1]), (l[2], l[3]), (l[4], l[5])
+    return f(a, b, c) and f(b, c, a) and f(c, a, b)
+
+
 def p102():
-    test1=[-340,495,-153,-910,835,-957]
-    test2=[-175,41,-421,-714,574,-645]
-    f=open('txt/triangles.txt')
-    return len([line for line in f if g([int(i) for i in line.split(',')])])
+    test1 = [-340, 495, -153, -910, 835, -957]
+    test2 = [-175, 41, -421, -714, 574, -645]
+    f = open("txt/triangles.txt")
+    return len([line for line in f if g([int(i) for i in line.split(",")])])
+
+
 print(p102())

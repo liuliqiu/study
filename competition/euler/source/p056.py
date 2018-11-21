@@ -4,8 +4,13 @@
 ##Considering natural numbers of the form, ab, where a, b  100, what is the
 ##maximum digital sum?
 
+
 def sumofdigits(n):
     return sum(int(i) for i in str(n))
+
+
 def fi():
-    return max(sumofdigits(i**j) for i in range(2,100) for j in range(2,100))
+    return max(sumofdigits(i ** j) for i in range(2, 100) for j in range(2, 100))
+
+
 print(fi())

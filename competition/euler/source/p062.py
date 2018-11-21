@@ -4,23 +4,26 @@
 ##Find the smallest cube for which exactly five permutations of its digits are
 ##cube.
 
+
 def fi():
-    digits=10
-    n1={}
-    n2={}
+    digits = 10
+    n1 = {}
+    n2 = {}
     for i in range(10000):
-        n=i**3
-        if n>digits:
-            n1={}
-            n2={}
-            digits=digits*10
-        strn=str(sorted(str(n)))
+        n = i ** 3
+        if n > digits:
+            n1 = {}
+            n2 = {}
+            digits = digits * 10
+        strn = str(sorted(str(n)))
         if strn in n1:
-            if n1[strn]>=4:
-                return (n2[strn])**3
+            if n1[strn] >= 4:
+                return (n2[strn]) ** 3
             else:
-                n1[strn]=n1[strn]+1
+                n1[strn] = n1[strn] + 1
         else:
-            n2[strn]=i
-            n1[strn]=1
+            n2[strn] = i
+            n1[strn] = 1
+
+
 print(fi())

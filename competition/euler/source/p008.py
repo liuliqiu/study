@@ -1,7 +1,7 @@
 ##Find the greatest product of five consecutive digits in the 1000-digit number.
 
 
-z="73167176531330624919225119674426574742355349194934\
+z = "73167176531330624919225119674426574742355349194934\
 96983520312774506326239578318016984801869478851843\
 85861560789112949495459501737958331952853208805511\
 12540698747158523863050715693290963295227443043557\
@@ -21,42 +21,60 @@ z="73167176531330624919225119674426574742355349194934\
 84580156166097919133875499200524063689912560717606\
 05886116467109405077541002256983155200055935729725\
 71636269561882670428252483600823257530420752963450"
-v=[int(i) for i in z]
+v = [int(i) for i in z]
 ##v=[1,2,3,4,5,0,1,2,3,0,1,2,3,4,5,6]
 from functools import reduce
+
+
 def prods(l):
-    if len(l)==0:
+    if len(l) == 0:
         return 0
-    return reduce(lambda x,y:x*y,l)
+    return reduce(lambda x, y: x * y, l)
+
+
 def f(x):
-    if len(x)<5:
+    if len(x) < 5:
         return 0
-    return max(prods(x[i-4:i+1]) for i in range(4,len(x)))
-def f2(x,k):
-    result,i=0,0
-    while i<len(x):
-        if x[i]==0:
-            i+=k
-        elif x[i]<x[i-k]:
-            i+=1
+    return max(prods(x[i - 4 : i + 1]) for i in range(4, len(x)))
+
+
+def f2(x, k):
+    result, i = 0, 0
+    while i < len(x):
+        if x[i] == 0:
+            i += k
+        elif x[i] < x[i - k]:
+            i += 1
             continue
-        if i>=k-1:
-            t=prods(x[i-k+1:i+1])
-            if t>result:
-                result=t
-        i+=1
+        if i >= k - 1:
+            t = prods(x[i - k + 1 : i + 1])
+            if t > result:
+                result = t
+        i += 1
     return result
+
+
 def f3(z):
-    sp=z.split('0')
+    sp = z.split("0")
     return max(f([int(i) for i in s]) for s in sp)
-print(f2(v,5))
+
+
+print(f2(v, 5))
 from timeit import Timer
 from Crazy import primes
+
+
 def test():
     f3(z)
-t=Timer("test()","from __main__ import test")
+
+
+t = Timer("test()", "from __main__ import test")
 print(t.timeit(100))
+
+
 def test2():
-    f2([int(i) for i in z],5)
-t2=Timer("test2()","from __main__ import test2")
+    f2([int(i) for i in z], 5)
+
+
+t2 = Timer("test2()", "from __main__ import test2")
 print(t2.timeit(100))

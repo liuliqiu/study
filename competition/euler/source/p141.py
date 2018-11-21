@@ -1,8 +1,9 @@
 #!/usr/bin/env python
-#-*- coding:utf-8 -*-
+# -*- coding:utf-8 -*-
 
 from itertools import count
 from eulertools import is_square
+
 
 def f(n):
     """
@@ -20,9 +21,8 @@ def f(n):
             break
         for c in range(1, b):
             for d in count(1):
-                x = c * b3 * d * d + c * c * d 
+                x = c * b3 * d * d + c * c * d
                 if x > n:
                     break
                 if is_square(x):
                     yield x
-

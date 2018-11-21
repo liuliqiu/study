@@ -9,13 +9,16 @@
 ##What is the sum of the numbers on the diagonals in a 1001 by 1001 spiral
 ##formed in the same way?
 
+
 def fi(n):
-    trinow=1
-    result=1
-    for i in range(3,2*n,2):
-        trilast=trinow
-        trinow=i*i
-        p=(trinow-trilast)//4
-        result=result+4*trilast+10*p
+    trinow = 1
+    result = 1
+    for i in range(3, 2 * n, 2):
+        trilast = trinow
+        trinow = i * i
+        p = (trinow - trilast) // 4
+        result = result + 4 * trilast + 10 * p
     return result
+
+
 print(fi(501))

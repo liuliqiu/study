@@ -8,19 +8,25 @@
 ##How many different ways can one hundred be written as a sum of at least two
 ##positive integers?
 
-cached={}
+cached = {}
+
+
 def p76(num):
-    def cachnum(n,k):
-        return k*(num+1)+n
-    def f(n,k):
-        '''n表示成小于n个数的和的方法数,每个数都大于或等于k'''
-        if n==0:
+    def cachnum(n, k):
+        return k * (num + 1) + n
+
+    def f(n, k):
+        """n表示成小于n个数的和的方法数,每个数都大于或等于k"""
+        if n == 0:
             return 1
-        canum=cachnum(n,k)
+        canum = cachnum(n, k)
         if canum not in cached:
-            cached[canum]=sum(f(n-i,i) for i in range(k,n+1))
+            cached[canum] = sum(f(n - i, i) for i in range(k, n + 1))
         return cached[canum]
-    return f(num,1)-1
+
+    return f(num, 1) - 1
+
+
 ##print(p76(1)==0)
 ##print(p76(2)==1)
 ##print(p76(3)==2)

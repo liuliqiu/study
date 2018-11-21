@@ -7,7 +7,7 @@
 ##square roots provide the best rational approximations. Let us consider the
 ##convergents for 2.
 ##1+1/2= 3/2
-##1+1/(2+1/2)=7/5 
+##1+1/(2+1/2)=7/5
 ##1+1/(2+1/(2+1/2)) = 17/12
 ##1+1/(2+1/(2+1/(2+1/2)))= 41/29
 ##Hence the sequence of the first ten convergents for 2 are:
@@ -24,16 +24,21 @@
 ##Find the sum of digits in the numerator of the 100th convergent of the continued fraction for e.
 
 from Crazy import Reducible
+
+
 def k(n):
-    if n%3==1:
-        return (n//3+1)*2
+    if n % 3 == 1:
+        return (n // 3 + 1) * 2
     else:
         return 1
 
+
 def fi(n):
-    z=[k(i) for i in range(n-1)]
-    a,b=0,1
-    for i in range(n-1):
-        a,b=Reducible(b,z[n-2-i]*b+a)
-    return sum(int(c) for c in str(2*b+a))
+    z = [k(i) for i in range(n - 1)]
+    a, b = 0, 1
+    for i in range(n - 1):
+        a, b = Reducible(b, z[n - 2 - i] * b + a)
+    return sum(int(c) for c in str(2 * b + a))
+
+
 print(fi(100))

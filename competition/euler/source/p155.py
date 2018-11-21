@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-#-*- coding:utf-8 -*-
+# -*- coding:utf-8 -*-
 
 from fractions import Fraction
 from collections import defaultdict
@@ -24,4 +24,3 @@ def D(n):
             for a, b in product(M[i], M[use_unit - i]):
                 M[use_unit].update((a + b, (a * b) / (a + b)))
     return len(reduce(set.union, M.values()))
-

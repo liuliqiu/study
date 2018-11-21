@@ -10,24 +10,29 @@
 ##What is the smallest odd composite that cannot be written as the sum of a
 ##prime and twice a square?
 
+
 def findprimes(n):
-    v=[2]
-    for i in range(3,n,2):
+    v = [2]
+    for i in range(3, n, 2):
         for j in v:
-            if j*j>i:
+            if j * j > i:
                 v.append(i)
                 break
-            if i%j==0:
+            if i % j == 0:
                 break
     return v
+
+
 def fi(n):
-    r=findprimes(n)
-    for i in range(9,n,2):
+    r = findprimes(n)
+    for i in range(9, n, 2):
         if i not in r:
-            for j in range(1,n):
-                if 2*j*j>i:
+            for j in range(1, n):
+                if 2 * j * j > i:
                     return i
                     break
-                if (i-2*j*j) in r:
+                if (i - 2 * j * j) in r:
                     break
+
+
 print(fi(10000))

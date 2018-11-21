@@ -56,71 +56,79 @@
 ##winner.
 ##How many hands does Player 1 win?
 def trannum(s):
-    if s=='T':
+    if s == "T":
         return 10
-    if s=='J':
+    if s == "J":
         return 11
-    if s=='Q':
+    if s == "Q":
         return 12
-    if s=='K':
+    if s == "K":
         return 13
-    if s=='A':
+    if s == "A":
         return 14
     return int(s)
+
+
 def p(pokers):
-    num=[]
-    col=[]
-    value=0
+    num = []
+    col = []
+    value = 0
     for p in pokers:
         col.append(p[1])
         num.append(trannum(p[0]))
-    if len(set(col))==1:
-        value=value+5
-    s={}
+    if len(set(col)) == 1:
+        value = value + 5
+    s = {}
     for n in num:
         if n in s:
-            s[n]=s[n]+1
+            s[n] = s[n] + 1
         else:
-            s[n]=1
-    rs={}
+            s[n] = 1
+    rs = {}
     for n in s:
         if s[n] in rs:
             rs[s[n]].append(n)
         else:
-            rs[s[n]]=[n]
+            rs[s[n]] = [n]
     if 4 in rs:
-        value=value+7
+        value = value + 7
     elif 3 in rs and 2 in rs:
-        value=value+6
+        value = value + 6
     elif 3 in rs:
-        value=value+3
+        value = value + 3
     elif 2 in rs:
-        if len(rs[2])==2:
-            value=value+2
+        if len(rs[2]) == 2:
+            value = value + 2
         else:
-            value=value+1
-    re=[]
-    for i in range(4,0,-1):
+            value = value + 1
+    re = []
+    for i in range(4, 0, -1):
         if i in rs:
-            for j in range(14,1,-1):
+            for j in range(14, 1, -1):
                 if j in rs[i]:
                     for k in range(i):
                         re.append(j)
-    if re[0]==re[1]+1==re[2]+2==re[3]+3==re[4]+4:
-        value=value+4
-    return (value,)+tuple(re)
+    if re[0] == re[1] + 1 == re[2] + 2 == re[3] + 3 == re[4] + 4:
+        value = value + 4
+    return (value,) + tuple(re)
+
+
 def p1(pokers):
-    s1=p(pokers[:5])
-    s2=p(pokers[5:])
-    return s1>s2 
+    s1 = p(pokers[:5])
+    s2 = p(pokers[5:])
+    return s1 > s2
+
+
 def fi():
-    f=open('txt\\poker.txt')
-    re=0
+    f = open("txt\\poker.txt")
+    re = 0
     for s in f:
-        s=s.strip()
-        if s!='' and p1(s.split(' ')):
-            re=re+1
+        s = s.strip()
+        if s != "" and p1(s.split(" ")):
+            re = re + 1
     print(re)
+
+
 ##v=('3C 3D 3S 9S 9D').split(' ')
 ##print(p(v))
 fi()

@@ -8,16 +8,20 @@
 ##E(6) = 9.
 ##
 ##If rad(n) is sorted for 1<=n<=100000, find E(10000).
-MAX=100000
+MAX = 100000
+
+
 def p124():
-    L=[1 for i in range(MAX)]
-    i=2
-    while i<MAX:
-        if L[i-1]==1:
-            for j in range(i-1,MAX,i):
-                L[j]=L[j]*i
-        i=i+1
-    K=list(enumerate(L))
-    K.sort(key=lambda x :x[1])
-    return K[10000-1]
+    L = [1 for i in range(MAX)]
+    i = 2
+    while i < MAX:
+        if L[i - 1] == 1:
+            for j in range(i - 1, MAX, i):
+                L[j] = L[j] * i
+        i = i + 1
+    K = list(enumerate(L))
+    K.sort(key=lambda x: x[1])
+    return K[10000 - 1]
+
+
 print(p124())

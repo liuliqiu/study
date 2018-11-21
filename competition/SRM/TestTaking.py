@@ -1,5 +1,3 @@
-
-
 class TestTaking(object):
     def findMax(self, questions, guessed, actual):
         """
@@ -13,5 +11,3 @@ class TestTaking(object):
         5
         """
         return min(guessed, actual) + questions - max(guessed, actual)
-
-

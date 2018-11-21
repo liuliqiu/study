@@ -26,7 +26,7 @@
 ##triangle containing one-hundred rows; it cannot be solved by brute force,
 ##and requires a clever method! ;o)
 
-c="""         75
+c = """         75
              95 64
             17 47 82
            18 35 87 10
@@ -41,31 +41,37 @@ c="""         75
   91 71 52 38 17 14 91 43 58 50 27 29 48
  63 66 04 68 89 53 67 30 73 16 69 87 40 31
 04 62 98 27 23 09 70 98 73 93 38 53 60 04 23"""
+
+
 def trans(s):
-    a=s.strip().split('\n')
-    b=[i.strip().split(' ') for i in a]
-    c=[[int(i) for i in j] for j in b]
+    a = s.strip().split("\n")
+    b = [i.strip().split(" ") for i in a]
+    c = [[int(i) for i in j] for j in b]
     return c
+
+
 def fi(s):
-    nums=trans(s)
-    result=[[0 for i in j] for j in nums]
+    nums = trans(s)
+    result = [[0 for i in j] for j in nums]
     for i in range(len(nums)):
         for j in range(len(nums[i])):
-            temp=0
-            if i==0:
-                result[i][j]=nums[i][j]
+            temp = 0
+            if i == 0:
+                result[i][j] = nums[i][j]
             else:
-                if j>0:
-                    temp=result[i-1][j-1]
-                if j<len(nums[i])-1 and result[i-1][j]>temp:
-                    temp=result[i-1][j]
-                result[i][j]=nums[i][j]+temp
-    rmax=0
+                if j > 0:
+                    temp = result[i - 1][j - 1]
+                if j < len(nums[i]) - 1 and result[i - 1][j] > temp:
+                    temp = result[i - 1][j]
+                result[i][j] = nums[i][j] + temp
+    rmax = 0
     for j in range(len(result[-1])):
-        if result[-1][j]>rmax:
-            rmax=result[-1][j]
+        if result[-1][j] > rmax:
+            rmax = result[-1][j]
     return rmax
-f=open('triangle.txt')
-c67=f.read()
+
+
+f = open("triangle.txt")
+c67 = f.read()
 print(fi(c67))
 f.close()

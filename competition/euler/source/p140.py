@@ -1,7 +1,8 @@
 #!/usr/bin/env python
-#-*- coding:utf-8 -*-
+# -*- coding:utf-8 -*-
 from itertools import islice
 from eulertools import skip
+
 
 def Agx_gener():
     """
@@ -12,12 +13,14 @@ def Agx_gener():
         if b % 5 == 2:
             yield (b - 7) / 5
 
+
 def g():
     x = h(1, 7, -2)
     y = h(2, 8, -1)
     while True:
         yield next(x)
         yield next(y)
+
 
 def h(a, b, old_a):
     while True:

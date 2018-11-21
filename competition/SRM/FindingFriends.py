@@ -126,6 +126,7 @@ class FindingFriends(object):
                 last = (last * a + b * i + c) % d
                 yield last
 
+
 if __name__ == "__main__":
     obj = FindingFriends()
-    print(obj.shortestDistance(6, [8,1,10,2,9,7], 12, 34, 56, 78, 2))
+    print(obj.shortestDistance(6, [8, 1, 10, 2, 9, 7], 12, 34, 56, 78, 2))

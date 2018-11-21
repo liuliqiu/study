@@ -14,31 +14,40 @@
 ##of two abundant numbers.
 
 from Crazy import *
+
+
 def d(n):
-    a=divisors(n)
+    a = divisors(n)
     a.remove(n)
     return lsum(a)
+
+
 def fi():
-    k=[]
-    result=[]
+    k = []
+    result = []
     for i in range(28123):
-        n=i+1
-        if d(n)>n:
+        n = i + 1
+        if d(n) > n:
             k.append(n)
-    s=0
+    s = 0
     for i in range(28123):
-        n=i+1
+        n = i + 1
         for j in k:
-            if j>=n:
-                s=s+n
+            if j >= n:
+                s = s + n
                 break
-            if n-j in k:
+            if n - j in k:
                 break
-        if n%300==0:
+        if n % 300 == 0:
             print(n)
     return s
 
-abundants = set(i for i in range(1,28124) if d(i) > i) 
+
+abundants = set(i for i in range(1, 28124) if d(i) > i)
+
+
 def abundantsum(i):
-    return any(i-a in abundants for a in abundants) 
-print(sum(i for i in range(1,28124) if not abundantsum(i)))
+    return any(i - a in abundants for a in abundants)
+
+
+print(sum(i for i in range(1, 28124) if not abundantsum(i)))

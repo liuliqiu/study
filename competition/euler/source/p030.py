@@ -9,15 +9,23 @@
 ##powers of their digits.
 
 import math
+
+
 def fi(n):
-    dn=[i**n for i in range(10)]
+    dn = [i ** n for i in range(10)]
+
     def f(x):
-        return sum([dn[(x//(10**i))%10] for i in range(math.floor(math.log10(x))+1)])
-    k=n
-    while (9**5)*k>(10**(k-1)):
-        k=k+1
-    k=k-1
-    x=[i for i in range(2,(9**5)*k) if f(i)==i]
+        return sum(
+            [dn[(x // (10 ** i)) % 10] for i in range(math.floor(math.log10(x)) + 1)]
+        )
+
+    k = n
+    while (9 ** 5) * k > (10 ** (k - 1)):
+        k = k + 1
+    k = k - 1
+    x = [i for i in range(2, (9 ** 5) * k) if f(i) == i]
     print(x)
     return sum(x)
+
+
 print(fi(5))

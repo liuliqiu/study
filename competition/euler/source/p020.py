@@ -2,4 +2,5 @@
 ##Find the sum of the digits in the number 100!
 
 from Crazy import *
+
 print(lsum(splitnumber(Factorial(100))))

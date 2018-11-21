@@ -15,37 +15,43 @@
 ##produces the maximum number of primes for consecutive values of n,
 ##starting with n = 0.
 
+
 def fi():
-    primes=[2];
-    for i in range(3,1000,2):
+    primes = [2]
+    for i in range(3, 1000, 2):
         for j in primes:
-            if j*j>i:
+            if j * j > i:
                 primes.append(i)
                 break
-            if i%j==0 :
+            if i % j == 0:
                 break
+
     def isprime(n):
-        if n<1000:
+        if n < 1000:
             return n in primes
-        elif n%2==0:
+        elif n % 2 == 0:
             return False
         else:
-            x=3
-            while x*x<=n:
-                if n%x:
+            x = 3
+            while x * x <= n:
+                if n % x:
                     return False
-                x=x+1
+                x = x + 1
             return True
-    def f(a,b):
-        for n in range(1,1000):
-            if not isprime(n*n+a*n+b):
+
+    def f(a, b):
+        for n in range(1, 1000):
+            if not isprime(n * n + a * n + b):
                 return n
-    re=0
-    z=0
-    for a in range(-999,1000):
+
+    re = 0
+    z = 0
+    for a in range(-999, 1000):
         for b in primes:
-            if f(a,b)>re:
-                re=f(a,b)
-                z=a*b
+            if f(a, b) > re:
+                re = f(a, b)
+                z = a * b
     return z
+
+
 print(fi())

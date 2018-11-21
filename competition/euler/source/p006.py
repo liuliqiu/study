@@ -9,10 +9,14 @@
 
 from __future__ import division
 
+
 def f2(n):
-    return sum(range(1, n + 1)) ** 2 - sum(i ** 2 for i in range(1, n+1))
+    return sum(range(1, n + 1)) ** 2 - sum(i ** 2 for i in range(1, n + 1))
+
+
 def f(n):
-    return ((n+1) * n * (n-1) * (3*n+2)) // 12
+    return ((n + 1) * n * (n - 1) * (3 * n + 2)) // 12
+
 
 test_case = [(10, 2640)]
-x=100
+x = 100

@@ -1,8 +1,9 @@
 #!/usr/bin/env python
-#-*- coding:utf-8 -*-
+# -*- coding:utf-8 -*-
 
 from itertools import count
 from eulertools import memoized
+
 
 @memoized
 def f(n):
@@ -15,6 +16,6 @@ def f(n):
     if n <= 2:
         return n
     if n % 2 == 1:
-        return f(n/2)
+        return f(n / 2)
     else:
-        return f(n/2) + f(n/2 -1)
+        return f(n / 2) + f(n / 2 - 1)

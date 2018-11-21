@@ -1,8 +1,9 @@
 #!/usr/bin/env python
-#-*- coding:utf-8 -*-
+# -*- coding:utf-8 -*-
 from itertools import count
 
-def f(end = 990000):
+
+def f(end=990000):
     """
         >>> f()
         2325629
@@ -38,4 +39,3 @@ def LaggedFibonacciGenerator():
             v = (L[(i - 25) % 55] + L[index]) % 1000000
             yield v
             L[index] = v
-

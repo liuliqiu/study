@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-#-*- coding:utf-8 -*-
+# -*- coding:utf-8 -*-
 
 
 def f(S, n):
@@ -12,6 +12,7 @@ def f(S, n):
     L = sorted(S)
     Min, Max = sum(L[0:n]), sum(L[-n:0])
     return sum(v for v in range(Min, Max + 1) if is_only_split(v, S, n))
+
 
 def is_only_split(v, S, n):
     pass

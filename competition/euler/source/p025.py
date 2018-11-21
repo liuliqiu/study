@@ -17,9 +17,12 @@
 ##What is the first term in the Fibonacci sequence to contain 1000 digits?
 
 import math
-def fi(n):
-    sqrt5=math.sqrt(5)
-    print(1+sqrt5/2)
-    return (n-1+math.log(sqrt5,10))/math.log((1+sqrt5)/2,10)
-print(fi(1000))
 
+
+def fi(n):
+    sqrt5 = math.sqrt(5)
+    print(1 + sqrt5 / 2)
+    return (n - 1 + math.log(sqrt5, 10)) / math.log((1 + sqrt5) / 2, 10)
+
+
+print(fi(1000))

@@ -8,24 +8,44 @@
 from Crazy import primes
 from Crazy import isprime
 from Crazy import MutiR
+
+
 def m(s):
-    return s[0]*1000+s[1]*100+s[2]*10+s[1]
+    return s[0] * 1000 + s[1] * 100 + s[2] * 10 + s[1]
+
+
 def f(s):
-    if len(s)==1:
+    if len(s) == 1:
         return [s[0]]
     else:
-        v=[]
+        v = []
         for i in range(len(s)):
-            for j in f(s[:i]+s[i+1:]):
-                v.append(s[i]*10**(len(s)-1)+j)
+            for j in f(s[:i] + s[i + 1 :]):
+                v.append(s[i] * 10 ** (len(s) - 1) + j)
         return v
+
+
 def f2(s):
-    r=f(s)
+    r = f(s)
     for i in r:
         if isprime(i):
             for j in r:
-                if i<j and isprime(j) and 2*j-i in r and isprime(2*j-i) and j<2*j-i:
-                    print(i,j,2*j-i)
+                if (
+                    i < j
+                    and isprime(j)
+                    and 2 * j - i in r
+                    and isprime(2 * j - i)
+                    and j < 2 * j - i
+                ):
+                    print(i, j, 2 * j - i)
+
+
 def fi():
-    [f2(s) for s in MutiR(range(1,10),range(10),range(10),range(10)) if s[0]<=s[1]<=s[2]<=s[3] or s[1]==0 and s[1]<=s[2]<=s[3]]
+    [
+        f2(s)
+        for s in MutiR(range(1, 10), range(10), range(10), range(10))
+        if s[0] <= s[1] <= s[2] <= s[3] or s[1] == 0 and s[1] <= s[2] <= s[3]
+    ]
+
+
 fi()

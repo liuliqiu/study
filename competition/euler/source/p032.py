@@ -8,12 +8,29 @@
 ##HINT: Some products can be obtained in more than one way so be sure to only
 ##include it once in your sum.
 
-def pandigital(string,n=9):
-    return len(string)==n and all([chr(i+48) in string for i in range(1,n+1)])
+
+def pandigital(string, n=9):
+    return len(string) == n and all([chr(i + 48) in string for i in range(1, n + 1)])
+
+
 def pandig9(string):
-    return len(string)==9 and '0' not in string and len(set(string))==9
+    return len(string) == 9 and "0" not in string and len(set(string)) == 9
+
+
 def fi():
-    a=[i*j for i in range(1,10) for j in range(1234,5000) if pandig9(str(i)+str(j)+str(i*j))]
-    b=[i*j for i in range(12,98+1) for j in range(123,987+1) if i%10 and i%11 and pandig9(str(i)+str(j)+str(i*j))]
-    return sum(set(a+b))
+    a = [
+        i * j
+        for i in range(1, 10)
+        for j in range(1234, 5000)
+        if pandig9(str(i) + str(j) + str(i * j))
+    ]
+    b = [
+        i * j
+        for i in range(12, 98 + 1)
+        for j in range(123, 987 + 1)
+        if i % 10 and i % 11 and pandig9(str(i) + str(j) + str(i * j))
+    ]
+    return sum(set(a + b))
+
+
 print(fi())

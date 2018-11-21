@@ -65,6 +65,7 @@ The game is played in turns. Each turn looks as follows:
     Returns: 40.03765576104895
 """
 
+
 class SubsetSumExtreme(object):
     def test(self):
         pass

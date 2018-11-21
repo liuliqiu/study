@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-#-*- coding:utf-8 -*-
+# -*- coding:utf-8 -*-
 
 from itertools import count
 
@@ -15,6 +15,7 @@ def f(mx):
             if s[i - 1] + s[j - 1] > s[v - 1]:
                 s[v - 1] = s[i - 1] + s[j - 1]
     return s
+
 
 def dgr(n):
     re = sum(map(int, str(n)))

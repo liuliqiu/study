@@ -20,51 +20,59 @@
 
 from Crazy import divisor
 import math
+
+
 def f(n):
-    m=n**0.5
-    x=[]
-    y=[1]
-    z=[int(m)]
-    ss=[]
-    p,q=1,int(m)
-    i=0
+    m = n ** 0.5
+    x = []
+    y = [1]
+    z = [int(m)]
+    ss = []
+    p, q = 1, int(m)
+    i = 0
     while True:
-        t1=n-q**2
-        s=divisor(t1,p)
-        t1=t1//s
-        t3=int((p*q)//s)
-        s2=int((m+t3)//t1)
-##        print(p,q,s,t1,t3,ss)
+        t1 = n - q ** 2
+        s = divisor(t1, p)
+        t1 = t1 // s
+        t3 = int((p * q) // s)
+        s2 = int((m + t3) // t1)
+        ##        print(p,q,s,t1,t3,ss)
         ss.append(s2)
-        p,q=t1,s2*t1-t3
-        if s2==2*int(m):
-##            print(s2,ss)
+        p, q = t1, s2 * t1 - t3
+        if s2 == 2 * int(m):
+            ##            print(s2,ss)
             break
-        i=i+1
-    return (int(m),ss)
+        i = i + 1
+    return (int(m), ss)
+
+
 def g(n):
-    sq,arr=f(n)
-##    print(sq,arr)
-    i=0
-    l=len(arr)
+    sq, arr = f(n)
+    ##    print(sq,arr)
+    i = 0
+    l = len(arr)
     while True:
-        p,q=0,1
-        for j in range(i,-1,-1):
-            p,q=q,q*arr[j%l]+p
-        p=p+q*sq
-##        print(p,q,p*p-n*q*q)
-        if p*p-n*q*q==1:
+        p, q = 0, 1
+        for j in range(i, -1, -1):
+            p, q = q, q * arr[j % l] + p
+        p = p + q * sq
+        ##        print(p,q,p*p-n*q*q)
+        if p * p - n * q * q == 1:
             return p
-        i=i+1 
+        i = i + 1
+
+
 def fi():
-    a,b=0,0
-    for i in range(2,1000):
-        if int(i**0.5)**2!=i:
-            t=g(i)
-##            print(i,t)
-            if t>b:
-                a,b=i,t
+    a, b = 0, 0
+    for i in range(2, 1000):
+        if int(i ** 0.5) ** 2 != i:
+            t = g(i)
+            ##            print(i,t)
+            if t > b:
+                a, b = i, t
     return a
+
+
 ##print(g(2)==3)
 ##print(g(3)==2)
 ##print(g(5)==9)

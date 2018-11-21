@@ -29,28 +29,34 @@
 ##
 ##How many continued fractions for N  10000 have an odd period?
 from Crazy import divisor
+
+
 def a(n):
-    m=n**0.5
-    x=[1]
-    y=[1]
-    z=[int(m)]
-    ss=[int(m)]
-    i=0
+    m = n ** 0.5
+    x = [1]
+    y = [1]
+    z = [int(m)]
+    ss = [int(m)]
+    i = 0
     while True:
-        t1=(x[i]**2)*n-z[i]**2
-        s=divisor(t1,y[i])
-        t1=t1//s
-        t2=int((y[i]*x[i])//s)
-        t3=int((y[i]*z[i])//s)
-        s2=int((t2*m+t3)//t1)
+        t1 = (x[i] ** 2) * n - z[i] ** 2
+        s = divisor(t1, y[i])
+        t1 = t1 // s
+        t2 = int((y[i] * x[i]) // s)
+        t3 = int((y[i] * z[i]) // s)
+        s2 = int((t2 * m + t3) // t1)
         ss.append(s2)
         for j in range(len(x)):
-            if t1==y[j] and t2==x[j] and s2*t1-t3==z[j]:
-                return ((len(x)-j)&1==1)
+            if t1 == y[j] and t2 == x[j] and s2 * t1 - t3 == z[j]:
+                return (len(x) - j) & 1 == 1
         y.append(t1)
-        z.append(s2*t1-t3)
+        z.append(s2 * t1 - t3)
         x.append(t2)
-        i=i+1
+        i = i + 1
+
+
 def fi(n):
-    return len([i for i in range(2,n) if int(i**0.5)!=i**0.5 and a(i)])
+    return len([i for i in range(2, n) if int(i ** 0.5) != i ** 0.5 and a(i)])
+
+
 print(fi(10001))

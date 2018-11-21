@@ -20,19 +20,31 @@
 ##NOTE: Wording was modified slightly on 24 April 2007 to emphasise the
 ##theoretical nature of Lychrel numbers.
 
+
 def reversenum(n):
-    l=len(str(n))
-    return sum(((n//10**i)%10)*10**(l-1-i) for i in range(l))
+    l = len(str(n))
+    return sum(((n // 10 ** i) % 10) * 10 ** (l - 1 - i) for i in range(l))
+
+
 def ispalindrome(n):
-    l=len(str(n))
-    return all((n//10**i)%10==(n//10**(l-1-i))%10 for i in range((l+1)>>1))
-def itern(n,i=50):
-    if i==0:
+    l = len(str(n))
+    return all(
+        (n // 10 ** i) % 10 == (n // 10 ** (l - 1 - i)) % 10
+        for i in range((l + 1) >> 1)
+    )
+
+
+def itern(n, i=50):
+    if i == 0:
         return -100
-    if ispalindrome(n) and i!=50:
+    if ispalindrome(n) and i != 50:
         return 0
     else:
-        return itern(n+reversenum(n),i-1)+1
+        return itern(n + reversenum(n), i - 1) + 1
+
+
 def fi():
-    return len([i for i in range(1,10000) if itern(i)<0])
+    return len([i for i in range(1, 10000) if itern(i) < 0])
+
+
 print(fi())

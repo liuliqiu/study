@@ -12,23 +12,32 @@
 ##ratio n/φ(n) produces a minimum.
 
 from Crazy import primes
-def permutation(n,m):
-    return sorted(str(n))==sorted(str(m))
+
+
+def permutation(n, m):
+    return sorted(str(n)) == sorted(str(m))
+
+
 def p70():
-    x=primes(10000)
-    t,s=0,3
-    xa=[]
+    x = primes(10000)
+    t, s = 0, 3
+    xa = []
     for i in x:
         for j in x:
-            if j<i:
+            if j < i:
                 continue
-            if permutation(i*j,(i-1)*(j-1)) and i*j/((i-1)*(j-1))<s:
-                print(i,j)
-                t,s=i*j,i*j/((i-1)*(j-1))
-                xa.append(i*j)
-            if i*j>10**7:
+            if (
+                permutation(i * j, (i - 1) * (j - 1))
+                and i * j / ((i - 1) * (j - 1)) < s
+            ):
+                print(i, j)
+                t, s = i * j, i * j / ((i - 1) * (j - 1))
+                xa.append(i * j)
+            if i * j > 10 ** 7:
                 break
-        if i*i>10**7:
+        if i * i > 10 ** 7:
             break
     return t
+
+
 print(p70())

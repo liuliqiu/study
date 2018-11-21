@@ -21,30 +21,33 @@
 ##
 ##Note: This problem has been changed recently, please check that you are using
 ##the right parameters.
-def HCF(i,j):
-    if j==0:
+def HCF(i, j):
+    if j == 0:
         return i
     else:
-        return HCF(j,i%j)
+        return HCF(j, i % j)
+
+
 def p75():
-    result=[]
-    for i in range(2,866):
-        for j in range(1,i):
-            if i*(i+j)<750000 and HCF(i,j)==1 and (i&1==0 or j&1==0):
-                if i*i-j*j>2*i*j:
-                    result.append((2*i*j,i*i-j*j,i*i+j*j))
+    result = []
+    for i in range(2, 866):
+        for j in range(1, i):
+            if i * (i + j) < 750000 and HCF(i, j) == 1 and (i & 1 == 0 or j & 1 == 0):
+                if i * i - j * j > 2 * i * j:
+                    result.append((2 * i * j, i * i - j * j, i * i + j * j))
                 else:
-                    result.append((i*i-j*j,2*i*j,i*i+j*j))
-    x=[0 for i in range(1500000+1)]
+                    result.append((i * i - j * j, 2 * i * j, i * i + j * j))
+    x = [0 for i in range(1500000 + 1)]
     for i in result:
-        k=sum(i)
-        for j in range(k,1500000+1,k):
-            if j==120:
-                print(k,i)
-            x[j]=x[j]+1
+        k = sum(i)
+        for j in range(k, 1500000 + 1, k):
+            if j == 120:
+                print(k, i)
+            x[j] = x[j] + 1
     print(x[120])
-    return len([i for i in x if i==1])
+    return len([i for i in x if i == 1])
+
+
 print(p75())
 ##print(HCF(2,1))
 ##print(HCF(20,8))
-                    

@@ -1,5 +1,6 @@
 #!/usr/bin/env python
-#-*- coding:utf-8 -*-
+# -*- coding:utf-8 -*-
+
 
 def f(n):
     """
@@ -16,14 +17,16 @@ def f(n):
         >>> f(18)
         227485267000992000
     """
-    d = {0:9, 1:1, 2:0, 3:0}
+    d = {0: 9, 1: 1, 2: 0, 3: 0}
     return 9 * g(n - 1, d)
-    
+
+
 def g(n, s):
     if n == 1:
         return count_choice(s)
     else:
         return sum(mult * g(n - 1, new_s) for mult, new_s in get_choice(s))
+
 
 def get_choice(s):
     for k, v in s.iteritems():
@@ -35,4 +38,4 @@ def get_choice(s):
 
 
 def count_choice(s):
-    return sum(v for k, v in s.iteritems() if k<3)
+    return sum(v for k, v in s.iteritems() if k < 3)

@@ -1,7 +1,8 @@
 #!/usr/bin/env python
-#-*- coding:utf-8 -*-
+# -*- coding:utf-8 -*-
 
 from eulertools import convergent_continued_fraction, skip
+
 
 def f(n):
     """
@@ -20,7 +21,8 @@ def f(n):
         s += (n - 1) / x
     return s
 
+
 def generator():
     for b, a in skip(convergent_continued_fraction((1, [2])), 1):
         if a * a * 2 - b * b == 1:
-            yield (b - 1)/ 2, (b + 1) / 2, a
+            yield (b - 1) / 2, (b + 1) / 2, a

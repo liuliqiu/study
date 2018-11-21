@@ -12,12 +12,16 @@
 ##In the first one-thousand expansions, how many fractions contain a numerator
 ##with more digits than denominator?
 import math
+
+
 def fi():
-    a,b=1,2
-    n=0
+    a, b = 1, 2
+    n = 0
     for i in range(999):
-        if math.floor(math.log10(a+b))>math.floor(math.log10(b)):
-            n=n+1
-        a,b=b,a+2*b
+        if math.floor(math.log10(a + b)) > math.floor(math.log10(b)):
+            n = n + 1
+        a, b = b, a + 2 * b
     return n
+
+
 print(fi())

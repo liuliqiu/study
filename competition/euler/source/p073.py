@@ -11,13 +11,21 @@
 ##fractions for d  12,000?
 ##
 ##Note: The upper limit has been changed recently.
-def HCF(i,j):
-    if j==0:
+def HCF(i, j):
+    if j == 0:
         return i
     else:
-        return HCF(j,i%j)
+        return HCF(j, i % j)
+
+
 def f(n):
-    l=[(i,j) for i in range(4,n+1) for j in range(i//3+1,i//2+1) if HCF(i,j)==1]
+    l = [
+        (i, j)
+        for i in range(4, n + 1)
+        for j in range(i // 3 + 1, i // 2 + 1)
+        if HCF(i, j) == 1
+    ]
     return len(l)
+
+
 print(f(12000))
-                

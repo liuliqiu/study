@@ -1,13 +1,14 @@
 #!/usr/bin/env python
-#-*- coding:utf-8 -*-
+# -*- coding:utf-8 -*-
 from itertools import count
 from eulertools import GCD, factorize
 from collections import Counter
 
+
 def Di(n):
     result = 1
     for p, x in Counter(factorize(n)).iteritems():
-        result *= (p ** (x + 1) - 1)/(p - 1)
+        result *= (p ** (x + 1) - 1) / (p - 1)
     return result
 
 
@@ -43,5 +44,3 @@ def f(n):
                     result += (i + j) * tmp * 2
 
     return result
-
-

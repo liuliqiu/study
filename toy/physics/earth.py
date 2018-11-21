@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-#-*- coding:utf-8 -*-
+# -*- coding:utf-8 -*-
 
 from __future__ import division
 
@@ -10,13 +10,16 @@ from collections import defaultdict
 from itertools import combinations
 
 
-G = 6.67e-11 # N * (m ** 2) * (kg ** -2)
+G = 6.67e-11  # N * (m ** 2) * (kg ** -2)
+
 
 def gravitation(m_1, m_2, r):
     return G * m_1 * m_2 / (r * r)
 
+
 def distance(v_1, v_2):
     return 0
+
 
 class Vector(object):
     """
@@ -37,12 +40,13 @@ class Vector(object):
         >>> abs(a), abs(b)
         3.74165738677 8.77496438739
     """
+
     def __init__(self, *x):
         self.x = x
         self.dimension = len(x)
 
     def scale(self, c):
-        return Vector(*map(lambda x:x * c, self.x))
+        return Vector(*map(lambda x: x * c, self.x))
 
     def magnitude(self):
         return sum(a ** 2 for a in self.x) ** 0.5
@@ -61,7 +65,7 @@ class Vector(object):
         else:
             raise Exception("Could not mul vector by {0}".format(type(x)))
 
-    __rmul__  =__mul__
+    __rmul__ = __mul__
 
     def __add__(self, x):
         assert isinstance(x, Vector), self.dimension == x.dimension
@@ -76,16 +80,18 @@ class Vector(object):
 
     __abs__ = magnitude
 
+
 def f(O, t):
     D = defaultdict(list)
-    for (i_1, (pos_1, m_1, v_1)), (i_2, (pos_2, m_2, v_2)) in combinations(enumerate(O), 2):
+    for (i_1, (pos_1, m_1, v_1)), (i_2, (pos_2, m_2, v_2)) in combinations(
+        enumerate(O), 2
+    ):
         V = pos_2 - pos_1
         F = gravitation(m_1, m_2, abs(pos_2 - pos_1))
         a_1, a_2 = F / m_1, F / m_2
 
         D[i_1].append(a_1 * t * V)
         D[i_2].append(a_2 * t * -V)
-
 
     new_O = []
 
@@ -99,31 +105,24 @@ def f(O, t):
 
 def main():
     O = [
-            (Vector(0, 0, 0), 5e9, Vector(.2, 0, 0), 1, color.blue),
-            (Vector(0, 10, 0), 5e9, Vector(-.2, 0, 0), 1, color.red),
-        ]
+        (Vector(0, 0, 0), 5e9, Vector(0.2, 0, 0), 1, color.blue),
+        (Vector(0, 10, 0), 5e9, Vector(-0.2, 0, 0), 1, color.red),
+    ]
     Obj = []
     for pos, m, v, r, c in O:
-        ball = sphere(pos = pos.x, radius = r, color = c)
-        ball.trail = curve(color = c)
+        ball = sphere(pos=pos.x, radius=r, color=c)
+        ball.trail = curve(color=c)
         Obj.append(ball)
-        
+
     X = [x[:3] for x in O]
     t = 0.01
     while True:
         X = f(X, t)
         for i, (pos, _, _) in enumerate(X):
             Obj[i].pos = pos.x
-            Obj[i].trail.append(pos = pos.x)
+            Obj[i].trail.append(pos=pos.x)
         sleep(t)
+
 
 if __name__ == "__main__":
     main()
-
-
-
-
-
-
-
-

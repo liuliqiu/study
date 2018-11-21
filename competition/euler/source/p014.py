@@ -7,27 +7,31 @@
 ##Which starting number, under one million, produces the longest chain?
 ##NOTE: Once the chain starts the terms are allowed to go above one million.
 
+
 def f(x):
-    if x%2==0:
-        return x//2
+    if x % 2 == 0:
+        return x // 2
     else:
-        return 3*x+1
+        return 3 * x + 1
+
+
 def fi(x):
-    v={1:0}
-    z=0
-    result=0
-    for i in range(1,x):
+    v = {1: 0}
+    z = 0
+    result = 0
+    for i in range(1, x):
         if i in v:
             continue
-        r=[i]
+        r = [i]
         while r[-1] not in v:
             r.append(f(r[-1]))
-        if v[r[-1]]+len(r)>z:
-            z=v[r[-1]]+len(r)
-            result=i
+        if v[r[-1]] + len(r) > z:
+            z = v[r[-1]] + len(r)
+            result = i
         for j in range(len(r)):
-            if(r[j]<x):
-                v[r[j]]=v[r[-1]]+len(r)-j
+            if r[j] < x:
+                v[r[j]] = v[r[-1]] + len(r) - j
     return result
+
+
 print(fi(1000000))
-        

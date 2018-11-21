@@ -5,13 +5,18 @@
 ##
 ##For 3<=a<=1000, find ∑rmax.
 
+
 def p120():
-    ''' '''
+    """ """
+
     def rmax(n):
-        if n%2==1:
-            return n*(n-1)
-        return max((4*i*n+2*n)%(n*n) for i in range(2*n+1))
-    for i in range(3,10+1):
-        print(i,rmax(i))
-    return sum(rmax(i) for i in range(3,1000+1))
+        if n % 2 == 1:
+            return n * (n - 1)
+        return max((4 * i * n + 2 * n) % (n * n) for i in range(2 * n + 1))
+
+    for i in range(3, 10 + 1):
+        print(i, rmax(i))
+    return sum(rmax(i) for i in range(3, 1000 + 1))
+
+
 print(p120())

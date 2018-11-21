@@ -15,20 +15,24 @@
 ##side length of the square spiral for which the ratio of primes along both
 ##diagonals first falls below 10%?
 from Crazy import isprime
+
+
 def fi():
-    a,b=0,1
-    first=1
-    mo=0
+    a, b = 0, 1
+    first = 1
+    mo = 0
     for i in range(100000):
-        mo=mo+2
+        mo = mo + 2
         for j in range(3):
-            first=first+mo
+            first = first + mo
             if isprime(first):
-                a=a+1
-        first=first+mo
-        b=b+4
-        if i%1000==0:
-            print(a,b)
-        if b/a>10:
-            return 2*i+3
+                a = a + 1
+        first = first + mo
+        b = b + 4
+        if i % 1000 == 0:
+            print(a, b)
+        if b / a > 10:
+            return 2 * i + 3
+
+
 print(fi())

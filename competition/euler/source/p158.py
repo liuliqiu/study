@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-#-*- coding:utf-8 -*-
+# -*- coding:utf-8 -*-
 
 from math import factorial
 
@@ -34,6 +34,7 @@ def p(n):
         325
     """
     return C(26, n) * g(n)
+
 
 def C(n, r):
     return factorial(n) / (factorial(r) * factorial(n - r))

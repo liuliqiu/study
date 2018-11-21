@@ -24,20 +24,25 @@
 ##Using the numbers 1 to 10, and depending on arrangements, it is possible to
 ##form 16- and 17-digit strings. What is the maximum 16-digit string for a
 ##"magic" 5-gon ring?
-from itertools import permutations,combinations
+from itertools import permutations, combinations
+
 
 def p68():
-    listAll=list(range(1,11))
-    listEx10=list(range(1,10))
-    sumAll=sum(listAll)
-    for sumIn in range(15,35+1,5):
-        sumOut=sumAll-sumIn
-        sumThreeElement=(sumIn+sumAll)//5
-        for listIn in filter(lambda x:sum(x)==sumIn,combinations(listEx10,5)):
-            listOut=set(listAll).difference(list(listIn))
-            x1=min(listOut)
-            for x2,x4 in  filter(lambda x:sum(x)==sumThreeElement-x1,permutations(listIn,2)):
-                print(x2,x4)
-            return 
-            print(listOut,listIn)
+    listAll = list(range(1, 11))
+    listEx10 = list(range(1, 10))
+    sumAll = sum(listAll)
+    for sumIn in range(15, 35 + 1, 5):
+        sumOut = sumAll - sumIn
+        sumThreeElement = (sumIn + sumAll) // 5
+        for listIn in filter(lambda x: sum(x) == sumIn, combinations(listEx10, 5)):
+            listOut = set(listAll).difference(list(listIn))
+            x1 = min(listOut)
+            for x2, x4 in filter(
+                lambda x: sum(x) == sumThreeElement - x1, permutations(listIn, 2)
+            ):
+                print(x2, x4)
+            return
+            print(listOut, listIn)
+
+
 p68()

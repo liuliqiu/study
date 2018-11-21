@@ -10,21 +10,25 @@
 ##square, prime cube, and prime fourth power?
 import math
 from Crazy import primes
+
+
 def p84(n):
-    result=set()
-    ps=primes(int(n**0.5)+1)
+    result = set()
+    ps = primes(int(n ** 0.5) + 1)
     for c in ps:
-        x=c**4
-        if x>=n:
+        x = c ** 4
+        if x >= n:
             break
         for b in ps:
-            y=x+b**3
-            if y>=n:
+            y = x + b ** 3
+            if y >= n:
                 break
             for a in ps:
-                z=y+a**2
-                if z>=n:
+                z = y + a ** 2
+                if z >= n:
                     break
                 result.add(z)
     return len(result)
+
+
 print(p84(50000000))

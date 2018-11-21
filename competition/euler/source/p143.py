@@ -1,7 +1,8 @@
 #!/usr/bin/env python
-#-*- coding:utf-8 -*-
+# -*- coding:utf-8 -*-
 from eulertools import is_square
 from collections import defaultdict
+
 
 def f(n):
     """
@@ -22,4 +23,3 @@ def f(n):
                         assert p < q < r
                 d[q].add(r)
                 d[r].add(q)
-

@@ -1,15 +1,16 @@
 #!/usr/bin/env python
-#-*- coding:utf-8 -*-
+# -*- coding:utf-8 -*-
 
 from collections import defaultdict
 from fractions import Fraction
+
 
 def f(n):
     """
     >>> round(float(f(4)), 6)
     0.464399
     """
-    statuses = {tuple(1 for i in range(n)) : Fraction(1, 1)}
+    statuses = {tuple(1 for i in range(n)): Fraction(1, 1)}
     result = 0
     for _ in range(2 ** n - 2):
         new_statuses = defaultdict(Fraction)
@@ -26,5 +27,6 @@ def f(n):
 
 
 def cut_in_half(status, use):
-    return tuple(v if i < use else v - 1 if i == use else v + 1 for i, v in enumerate(status))
-
+    return tuple(
+        v if i < use else v - 1 if i == use else v + 1 for i, v in enumerate(status)
+    )

@@ -9,15 +9,22 @@
 ##containing nearly two-thousand common English words, how many are triangle
 ##words?
 
+
 def value(string):
-    return sum(ord(c)-64 for c in string)
+    return sum(ord(c) - 64 for c in string)
+
+
 def readfile():
-    f=open("words.txt")
-    z=f.read()
-    k=z.split(',')
+    f = open("words.txt")
+    z = f.read()
+    k = z.split(",")
     f.close()
-    return list(j.strip("\"") for j in k)
+    return list(j.strip('"') for j in k)
+
+
 def fi():
-    v=[i*(i+1)//2 for i in range(1,100)]
+    v = [i * (i + 1) // 2 for i in range(1, 100)]
     return len([i for i in readfile() if value(i) in v])
+
+
 print(fi())

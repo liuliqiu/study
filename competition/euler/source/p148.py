@@ -14,28 +14,37 @@
 ##Find the number of entries which are not divisible by 7 in the first one billion
 ##(10^9) rows of Pascal's triangle.
 import math
-BASE=7
+
+BASE = 7
+
 
 def s(n):
-    return n*(n-1)/2
+    return n * (n - 1) / 2
+
 
 def tri(i):
-    return s(BASE**i)
+    return s(BASE ** i)
+
 
 def divisubleNum(n):
-    k = int(math.log(n-1,BASE))
+    k = int(math.log(n - 1, BASE))
     if k == 0:
         return 0
-    tris = [tri(i) for i in range(1,k+1)]
+    tris = [tri(i) for i in range(1, k + 1)]
     tris2 = [0]
     for t in tris:
-        tris2.append(s(BASE)*t + s(BASE+1)*tris2[-1])
+        tris2.append(s(BASE) * t + s(BASE + 1) * tris2[-1])
     height, left = divmod(n, BASE ** k)
-    result = s(height) * tris[k-1] + s(height+1) * tris2[k-1]
-    return result+height*(s(BASE**k)-s(BASE**k-left))+(height+1)*divisubleNum(left)
+    result = s(height) * tris[k - 1] + s(height + 1) * tris2[k - 1]
+    return (
+        result
+        + height * (s(BASE ** k) - s(BASE ** k - left))
+        + (height + 1) * divisubleNum(left)
+    )
+
 
 def p148(n):
-    print(s(n+1)-divisubleNum(n))
+    print(s(n + 1) - divisubleNum(n))
 
 
-p148(10**9)
+p148(10 ** 9)

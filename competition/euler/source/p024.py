@@ -6,20 +6,24 @@
 ##What is the millionth lexicographic permutation of the digits
 ##0, 1, 2, 3, 4, 5, 6, 7, 8 and 9?
 from Crazy import *
+
+
 def fi(x):
-    v=[Factorial(i) for i in range(10)]
-    n=[i for i in range(10)]
-    p=0
-    i=9
+    v = [Factorial(i) for i in range(10)]
+    n = [i for i in range(10)]
+    p = 0
+    i = 9
     print(v)
-    while i>0:
-        fn=v[i]
-        j=(x-1)//fn
-        print(i,j,n[j])
-        p=p*10+n[j]
+    while i > 0:
+        fn = v[i]
+        j = (x - 1) // fn
+        print(i, j, n[j])
+        p = p * 10 + n[j]
         n.remove(n[j])
-        x=(x-1)%fn+1
-        i=i-1
-    p=p*10+n[0]
+        x = (x - 1) % fn + 1
+        i = i - 1
+    p = p * 10 + n[0]
     return p
+
+
 print(fi(1000000))

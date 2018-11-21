@@ -8,17 +8,23 @@
 ##Evaluate the sum of all the amicable numbers under 10000.
 
 from Crazy import *
+
+
 def d(n):
-    a=divisors(n)
+    a = divisors(n)
     a.remove(n)
     return lsum(a)
+
+
 def fi(n):
-    v={}
-    for i in range(1,n):
-        v[i]=d(i)
-    s=0
-    for i in range(1,n):
-        if i<v[i] and v[i]<n and i==v[v[i]]:
-            s=s+i+v[i]
+    v = {}
+    for i in range(1, n):
+        v[i] = d(i)
+    s = 0
+    for i in range(1, n):
+        if i < v[i] and v[i] < n and i == v[v[i]]:
+            s = s + i + v[i]
     print(s)
+
+
 fi(10000)

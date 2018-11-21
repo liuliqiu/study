@@ -9,18 +9,23 @@
 ##order of size, find the numerator of the fraction immediately to the left of
 ##3/7.
 
-def HCF(numer,denomin):
-    if numer==0:
+
+def HCF(numer, denomin):
+    if numer == 0:
         return denomin
     else:
-        return HCF(denomin%numer,numer)
-def p71(n,numerator,denominator):
-    tempnumer=0
-    tempdenomin=1
-    for denomin in range(n+1):
-        numer=(denomin*numerator-1)//denominator
-        if HCF(numer,denomin)==1 and numer*tempdenomin>denomin*tempnumer:
-            tempdenomin=denomin
-            tempnumer=numer
+        return HCF(denomin % numer, numer)
+
+
+def p71(n, numerator, denominator):
+    tempnumer = 0
+    tempdenomin = 1
+    for denomin in range(n + 1):
+        numer = (denomin * numerator - 1) // denominator
+        if HCF(numer, denomin) == 1 and numer * tempdenomin > denomin * tempnumer:
+            tempdenomin = denomin
+            tempnumer = numer
     return tempnumer
-print(p71(1000000,3,7))
+
+
+print(p71(1000000, 3, 7))

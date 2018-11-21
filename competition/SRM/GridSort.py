@@ -1,5 +1,3 @@
-
-
 class GridSort(object):
     def sort(self, n, m, grid):
         """
@@ -23,5 +21,3 @@ class GridSort(object):
             if len(set((grid[i * m + j] - 1) % m for i in range(n))) != 1:
                 return "Impossible"
         return "Possible"
-
-

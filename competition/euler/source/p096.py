@@ -19,7 +19,7 @@
 ##By solving all fifty puzzles find the sum of the 3-digit numbers found in the
 ##top left corner of each solution grid; for example, 483 is the 3-digit number
 ##found in the top left corner of the solution grid above.
-test='''003020600
+test = """003020600
 900305001
 001806400
 008102900
@@ -27,49 +27,57 @@ test='''003020600
 006708200
 002609500
 800203009
-005010300'''
-Num=set([str(i) for i in range(1,10)])
+005010300"""
+Num = set([str(i) for i in range(1, 10)])
+
+
 def tran(s):
-    return [[c for c in line] for line in s.split('\n')]
+    return [[c for c in line] for line in s.split("\n")]
+
+
 def deepsearch(SoDoku):
-##    print(SoDoku)
-    search=True
+    ##    print(SoDoku)
+    search = True
     for i in range(9):
         for j in range(9):
-            if search and SoDoku[i][j]=='0':
-                search=False
-                L=[]
+            if search and SoDoku[i][j] == "0":
+                search = False
+                L = []
                 for a in range(9):
                     for b in range(9):
-                        if a==i or b==j or (a//3==i//3 and b//3==j//3):
+                        if a == i or b == j or (a // 3 == i // 3 and b // 3 == j // 3):
                             L.append(SoDoku[a][b])
-##                print(L)
-                X=Num.difference(L)
-##                print(i,j,X)
+                ##                print(L)
+                X = Num.difference(L)
+                ##                print(i,j,X)
                 for k in X:
-                    SoDoku[i][j]=k
-                    Result=deepsearch(SoDoku)
+                    SoDoku[i][j] = k
+                    Result = deepsearch(SoDoku)
                     if Result:
                         return Result
-                SoDoku[i][j]='0'
+                SoDoku[i][j] = "0"
     if search:
         return SoDoku
+
+
 def p96():
-    i=0
-    s=""
-    result=0
-    for line in open('txt/sudoku.txt'):
-        if i%10!=0:
-            s=s+line
+    i = 0
+    s = ""
+    result = 0
+    for line in open("txt/sudoku.txt"):
+        if i % 10 != 0:
+            s = s + line
         else:
-            s=""
-        if i%10==9:
-                print(s)
-                SoDoku=deepsearch(tran(s))
-##                print(SoDoku)
-                nums=SoDoku[0][0]+SoDoku[0][1]+SoDoku[0][2]
-##                print(nums)
-                result=result+int(nums)
-        i=i+1
+            s = ""
+        if i % 10 == 9:
+            print(s)
+            SoDoku = deepsearch(tran(s))
+            ##                print(SoDoku)
+            nums = SoDoku[0][0] + SoDoku[0][1] + SoDoku[0][2]
+            ##                print(nums)
+            result = result + int(nums)
+        i = i + 1
     return result
+
+
 print(p96())

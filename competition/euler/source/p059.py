@@ -20,32 +20,36 @@
 ##text must contain common English words, decrypt the message and find the sum of
 ##the ASCII values in the original text.
 def test(nums):
-    v=[32]+list(range(65,91))+list(range(97,123))
-    z=[[i^j for j in v] for i in nums]
-    x=[{},{},{}]
-    y=[0,0,0]
+    v = [32] + list(range(65, 91)) + list(range(97, 123))
+    z = [[i ^ j for j in v] for i in nums]
+    x = [{}, {}, {}]
+    y = [0, 0, 0]
     for i in range(len(z)):
         for c in range(3):
-            if i%3==c:
-                y[c]=y[c]+1
+            if i % 3 == c:
+                y[c] = y[c] + 1
                 for j in z[i]:
                     if j in x[c]:
-                        x[c][j]=x[c][j]+1
+                        x[c][j] = x[c][j] + 1
                     else:
-                        x[c][j]=1
-    re=[]
+                        x[c][j] = 1
+    re = []
     for i in range(3):
-        a,b=0,0
-        for j in range(97,123):
-            if x[i][j]>a:
-                a,b=x[i][j],j
+        a, b = 0, 0
+        for j in range(97, 123):
+            if x[i][j] > a:
+                a, b = x[i][j], j
         re.append(b)
     return re
+
+
 def fi():
-    f=open('txt\\cipher1.txt')
-    s=f.read().strip()
-    ns=[int(c) for c in s.split(',')]
-    z=test(ns)
-    s=sum([z[i%3]^ns[i] for i in range(len(ns))])
+    f = open("txt\\cipher1.txt")
+    s = f.read().strip()
+    ns = [int(c) for c in s.split(",")]
+    z = test(ns)
+    s = sum([z[i % 3] ^ ns[i] for i in range(len(ns))])
     print(s)
+
+
 fi()

@@ -1,8 +1,9 @@
 #!/usr/bin/env python
-#-*- coding:utf-8 -*-
+# -*- coding:utf-8 -*-
 
 from itertools import count
 from eulertools import memoized
+
 
 def max_sub_triangle(triangle):
     """
@@ -26,13 +27,20 @@ def max_sub_triangle(triangle):
             i = v - deep + j
             tmp = triangle[i]
             for high in range(2, n - deep + 1):
-                tmp += sum(triangle[triangle_number(deep + high - 2) + j : triangle_number(deep + high - 2) + j + high])
+                tmp += sum(
+                    triangle[
+                        triangle_number(deep + high - 2)
+                        + j : triangle_number(deep + high - 2)
+                        + j
+                        + high
+                    ]
+                )
                 result = min(result, tmp)
 
     return result
 
 
-triangle_number = memoized(lambda x:(x * (x + 1)) / 2)
+triangle_number = memoized(lambda x: (x * (x + 1)) / 2)
 
 
 def count_triangle_number():

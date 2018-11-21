@@ -15,16 +15,21 @@
 ##It can be seen that n=6 produces a maximum n/φ(n) for n<=10.
 ##Find the value of n  1,000,000 for which n/φ(n) is a maximum.
 from Crazy import primes
-maxlen=1000000
+
+maxlen = 1000000
+
+
 def fi():
-    v=primes(100)
+    v = primes(100)
     print(v)
-    s=1
-    i=0
-    while s<maxlen:
-        s=s*v[i]
-        i=i+1
+    s = 1
+    i = 0
+    while s < maxlen:
+        s = s * v[i]
+        i = i + 1
         print(s)
-    s=s//v[i-1]
+    s = s // v[i - 1]
     return s
+
+
 print(fi())

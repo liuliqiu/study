@@ -6,10 +6,13 @@
 ##2,357,207 digits: 28433*2^7830457+1.
 ##Find the last ten digits of this prime number.
 
+
 def fi():
-    re=28433
+    re = 28433
     for i in range(783045):
-        re=(re*1024)%10000000000
-    re=(re*128+1)%10000000000
+        re = (re * 1024) % 10000000000
+    re = (re * 128 + 1) % 10000000000
     return re
+
+
 print(fi())

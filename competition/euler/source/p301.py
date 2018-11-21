@@ -26,9 +26,12 @@
 ##
 ##For how many positive integers n  230 does X(n,2n,3n) = 0 ?
 
+
 def p301():
-    s=[1,1]
-    while len(s)<30:
-        s.append(sum(s[:-1])+1)
-    return sum(s)+1
+    s = [1, 1]
+    while len(s) < 30:
+        s.append(sum(s[:-1]) + 1)
+    return sum(s) + 1
+
+
 print(p301())

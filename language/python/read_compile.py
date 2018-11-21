@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding:utf-8 -*-
 
-#from __future__ import print_function
+# from __future__ import print_function
 import dis
 
 
@@ -43,12 +43,14 @@ def f(x):
 f(3)
 """
 
+
 def show_code(code):
     print("\ncode - ", code.co_name, ":\n")
     dis.disco(code)
     for const in code.co_consts:
         if type(const) is type(code):
             show_code(const)
+
 
 def main():
     for py_code in [if_control_py, for_control_py, while_control_py, func_py, yield_py]:

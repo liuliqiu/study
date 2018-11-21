@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-#-*- coding:utf-8 -*-
+# -*- coding:utf-8 -*-
 from itertools import combinations_with_replacement, product
 
 
@@ -22,17 +22,18 @@ def f(m, n):
         return f(n, m)
     result = 0
     for a, b in combinations_with_replacement(range(1, 2 * n), 2):
-        if a > n :
+        if a > n:
             continue
-        o_num, e_num = odd_even_count(a, 2* n - b)
-        tmp_o = o_num * ((2 * m + 1 - (a + b )) / 2)
+        o_num, e_num = odd_even_count(a, 2 * n - b)
+        tmp_o = o_num * ((2 * m + 1 - (a + b)) / 2)
         tmp_p = e_num * (m - (a + b - 1) / 2)
         tmp = tmp_o + tmp_p
         result += tmp
-        if a!=b:
+        if a != b:
             result += tmp
     result += g(m, n)
     return result
+
 
 def h(m, n):
     """
@@ -52,8 +53,7 @@ def odd_even_count(a, b):
     if b < a:
         return 0, 0
     e_a = (a - 1) / 2
-    o_a = e_a + (a - 1)% 2
+    o_a = e_a + (a - 1) % 2
     e_b = b / 2
-    o_b = e_b + b% 2
+    o_b = e_b + b % 2
     return o_b - o_a, e_b - e_a
-

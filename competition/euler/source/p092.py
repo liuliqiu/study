@@ -8,19 +8,25 @@
 ##arrive at 1 or 89.
 ##How many starting numbers below ten million will arrive at 89?
 
-maxlen=10000000
+maxlen = 10000000
+
+
 def fi():
-    v=[False,False,True]
+    v = [False, False, True]
+
     def f(n):
-        if n<len(v):
+        if n < len(v):
             return v[n]
-        s=int(''.join(sorted(str(n))))
-        if s<len(v):
+        s = int("".join(sorted(str(n))))
+        if s < len(v):
             return v[s]
-        return f(sum(int(c)**2 for c in str(n)))
-    for i in range(3,maxlen):
-        if i%100000==0:
+        return f(sum(int(c) ** 2 for c in str(n)))
+
+    for i in range(3, maxlen):
+        if i % 100000 == 0:
             print(i)
         v.append(f(i))
     return len([i for i in v if i])
+
+
 print(fi())
