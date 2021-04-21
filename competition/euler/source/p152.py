@@ -47,26 +47,27 @@ def count_inverse_squares_old(number):
     factorial = 1
     for p, n in [(2, 6), (3, 3), (5, 2), (7, 2), (11, 1), (13, 1)]:
         factorial *= (p ** n)
-    print factorial
     target = (factorial // 2) ** 2
     numbers = tuple(
         (factorial // n) ** 2
         for n in range(3, number + 1)
         if factorial % n == 0
     )
-    print len(numbers)
-    print target, numbers
     sum_numbers = sum(numbers)
     return find_sum(target, numbers, sum_numbers)
 
 
 def count_inverse_squares(number):
-    prime_list = list(reversed(list(primes(number / 2 + 1))))
+    prime_list = list(reversed(list(primes(number // 2 + 1))))
     factories = dict(zip(count(3), factorize_to(number)[2:]))
+
+    print(prime_list, factories)
 
     data = defaultdict(list)
     for n, fact in factories.items():
         data[max(fact.keys())].append((Fraction(1, n * n), (n, )))
+
+    print(data)
 
     last_choices = [(0, tuple())]
     all_choices = [(0, tuple())]
@@ -78,8 +79,9 @@ def count_inverse_squares(number):
             lst = tuple(chain(*[l for v, l in values]))
             if p == 2:
                 if value == Fraction(1, 4):
+                    print(sorted(lst))
+                    assert len(lst) == len(set(lst))
                     yield sorted(lst)
-                    print sorted(lst)
             else:
                 if value.denominator % p != 0 and value <= Fraction(1, 4):
                     all_choices.append((value, lst))
@@ -91,7 +93,7 @@ def max_factor(number):
 
 def power_set(choices, with_empty=True):
     marks = [1<<i for i in range(len(choices))]
-    lst = zip(marks, choices)
+    lst = list(zip(marks, choices))
     for i in range(0 if with_empty else 1, 2 ** len(choices)):
         yield [choice for mark, choice in lst if mark & i]
 
@@ -105,7 +107,7 @@ def main():
     # 65        10.54s      29
     # 70        21.53s      67
     # 80        84.87s      152 <error>
-    result = list(count_inverse_squares(80))
+    result = list(count_inverse_squares(72))
     #print(result)
     print(len(result))
 

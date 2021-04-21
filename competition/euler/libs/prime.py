@@ -2,7 +2,7 @@
 
 from random import randint
 
-from eulertools import exp_mod
+from .eulertools import exp_mod
 
 
 def is_prime(n):
@@ -23,7 +23,7 @@ def primes(n):
         raise StopIteration
     else:
         yield 2
-        l = [True for i in range((n - 1) // 2)]
+        l = [True for i in range(int((n - 1) // 2))]
         for i in range(len(l)):
             if l[i]:
                 yield 2 * i + 3

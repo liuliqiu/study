@@ -55,7 +55,7 @@ def factorize(n):
     k = 2
     while k * k <= n:
         while n % k == 0:
-            n /= k
+            n //= k
             yield k
         k += 1 if k == 2 else 2
     if n > 1:
@@ -67,13 +67,13 @@ def factorize_to(n):
         将从 1 到 n 的整数分解因数
     """
     l = [{} for _ in range(n)]
-    for i in xrange(2, n + 1):
+    for i in range(2, n + 1):
         d = l[i - 1]
         if len(d) == 0:
             d[i] = 1
             for k in range(1, int(math.log(n, i) + 1)):
                 t = i ** k
-                for j in range(1, n / t + 1):
+                for j in range(1, int(n / t + 1)):
                     l[j * t - 1][i] = k
     return l
 
@@ -145,7 +145,6 @@ def timer(func):
     def wraper(*args, **kwargs):
         t = time.time()
         result = func(*args, **kwargs)
-        print time.time() - t
         return result
     return wraper
 
@@ -157,7 +156,7 @@ def skip(iter_item, n):
         yield item
 
 def limit(iter_item, n):
-    for i in xrange(n):
+    for i in range(n):
         yield next(iter_item)
 
 
@@ -185,12 +184,6 @@ class memoized(object):
       return self.func.__doc__
    def __get__(self, obj, objtype):
       """Support instance methods."""
-
-
-def main():
-    print GCD(24, 18, 27)
-    print LCM(24, 18, 27)
-    print map(is_prime, range(1, 10))
 
 if __name__ == "__main__":
     main()
